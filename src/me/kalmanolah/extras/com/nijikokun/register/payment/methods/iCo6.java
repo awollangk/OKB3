@@ -4,17 +4,19 @@ import me.kalmanolah.extras.com.nijikokun.register.payment.Method;
 
 import org.bukkit.plugin.Plugin;
 
-import com.nijiko.coelho.iConomy.iConomy;
-import com.nijiko.coelho.iConomy.system.Account;
+import com.iCo6.iConomy;
+import com.iCo6.system.Account;
+import com.iCo6.system.Accounts;
+import com.iCo6.system.Holdings;
 
 /**
- * iConomy 4 Implementation of Method
+ * iConomy 6 Implementation of Method
  * 
  * @author Nijikokun <nijikokun@shortmail.com> (@nijikokun)
  * @copyright (c) 2011
  * @license AOL license <http://aol.nexua.org>
  */
-public class iCo4 implements Method {
+public class iCo6 implements Method {
 	private iConomy iConomy;
 
 	public iConomy getPlugin() {
@@ -26,7 +28,7 @@ public class iCo4 implements Method {
 	}
 
 	public String getVersion() {
-		return "4";
+		return "6";
 	}
 
 	public int fractionalDigits() {
@@ -34,7 +36,7 @@ public class iCo4 implements Method {
 	}
 
 	public String format(double amount) {
-		return com.nijiko.coelho.iConomy.iConomy.getBank().format(amount);
+		return com.iCo6.iConomy.format(amount);
 	}
 
 	public boolean hasBanks() {
@@ -46,7 +48,7 @@ public class iCo4 implements Method {
 	}
 
 	public boolean hasAccount(String name) {
-		return com.nijiko.coelho.iConomy.iConomy.getBank().hasAccount(name);
+		return (new Accounts()).exists(name);
 	}
 
 	public boolean hasBankAccount(String bank, String name) {
@@ -54,7 +56,7 @@ public class iCo4 implements Method {
 	}
 
 	public MethodAccount getAccount(String name) {
-		return new iCoAccount(com.nijiko.coelho.iConomy.iConomy.getBank().getAccount(name));
+		return new iCoAccount((new Accounts()).get(name));
 	}
 
 	public MethodBankAccount getBankAccount(String bank, String name) {
@@ -62,7 +64,7 @@ public class iCo4 implements Method {
 	}
 
 	public boolean isCompatible(Plugin plugin) {
-		return plugin.getDescription().getName().equalsIgnoreCase("iconomy") && plugin.getClass().getName().equals("com.nijiko.coelho.iConomy.iConomy") && (plugin instanceof iConomy);
+		return plugin.getDescription().getName().equalsIgnoreCase("iconomy") && plugin.getClass().getName().equals("com.iCo6.iConomy") && (plugin instanceof iConomy);
 	}
 
 	public void setPlugin(Plugin plugin) {
@@ -70,9 +72,11 @@ public class iCo4 implements Method {
 	}
 	public class iCoAccount implements MethodAccount {
 		private Account account;
+		private Holdings holdings;
 
 		public iCoAccount(Account account) {
 			this.account = account;
+			holdings = account.getHoldings();
 		}
 
 		public Account getiCoAccount() {
@@ -80,63 +84,63 @@ public class iCo4 implements Method {
 		}
 
 		public double balance() {
-			return account.getBalance();
+			return holdings.getBalance();
 		}
 
 		public boolean set(double amount) {
-			if (account == null) {
+			if (holdings == null) {
 				return false;
 			}
-			account.setBalance(amount);
+			holdings.setBalance(amount);
 			return true;
 		}
 
 		public boolean add(double amount) {
-			if (account == null) {
+			if (holdings == null) {
 				return false;
 			}
-			account.add(amount);
+			holdings.add(amount);
 			return true;
 		}
 
 		public boolean subtract(double amount) {
-			if (account == null) {
+			if (holdings == null) {
 				return false;
 			}
-			account.subtract(amount);
+			holdings.subtract(amount);
 			return true;
 		}
 
 		public boolean multiply(double amount) {
-			if (account == null) {
+			if (holdings == null) {
 				return false;
 			}
-			account.multiply(amount);
+			holdings.multiply(amount);
 			return true;
 		}
 
 		public boolean divide(double amount) {
-			if (account == null) {
+			if (holdings == null) {
 				return false;
 			}
-			account.divide(amount);
+			holdings.divide(amount);
 			return true;
 		}
 
 		public boolean hasEnough(double amount) {
-			return account.hasEnough(amount);
+			return holdings.hasEnough(amount);
 		}
 
 		public boolean hasOver(double amount) {
-			return account.hasOver(amount);
+			return holdings.hasOver(amount);
 		}
 
 		public boolean hasUnder(double amount) {
-			return (balance() < amount);
+			return holdings.hasUnder(amount);
 		}
 
 		public boolean isNegative() {
-			return account.isNegative();
+			return holdings.isNegative();
 		}
 
 		public boolean remove() {

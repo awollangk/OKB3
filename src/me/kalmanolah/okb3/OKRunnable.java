@@ -114,7 +114,6 @@ public class OKRunnable implements Runnable {
 			if (!kicked) {
 				if (!OKmain.CheckPermission(plr, "bbb.hide")) {
 					plugin.getServer().broadcastMessage(OKmain.cachedjoinmsgs.get(plr));
-					OKmain.cachedjoinmsgs.remove(plr);
 				}
 				if ((Boolean) OKFunctions.getConfig("gen.nicks")) {
 					OKFunctions.updateNick(plr);
@@ -123,6 +122,7 @@ public class OKRunnable implements Runnable {
 					OKFunctions.updatePosts(plr);
 				}
 			}
+			OKmain.cachedjoinmsgs.remove(plr);
 		}
 		if (event.getType() == Type.PLAYER_TELEPORT) {
 			PlayerTeleportEvent teleportevent = (PlayerTeleportEvent) event;

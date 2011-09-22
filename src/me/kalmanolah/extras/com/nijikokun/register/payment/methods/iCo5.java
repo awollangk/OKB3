@@ -10,6 +10,13 @@ import com.iConomy.system.BankAccount;
 import com.iConomy.system.Holdings;
 import com.iConomy.util.Constants;
 
+/**
+ * iConomy 5 Implementation of Method
+ * 
+ * @author Nijikokun <nijikokun@shortmail.com> (@nijikokun)
+ * @copyright (c) 2011
+ * @license AOL license <http://aol.nexua.org>
+ */
 public class iCo5 implements Method {
 	private iConomy iConomy;
 
@@ -25,8 +32,12 @@ public class iCo5 implements Method {
 		return "5";
 	}
 
+	public int fractionalDigits() {
+		return 2;
+	}
+
 	public String format(double amount) {
-		return iConomy.format(amount);
+		return com.iConomy.iConomy.format(amount);
 	}
 
 	public boolean hasBanks() {
@@ -34,23 +45,23 @@ public class iCo5 implements Method {
 	}
 
 	public boolean hasBank(String bank) {
-		return (!hasBanks()) ? false : iConomy.Banks.exists(bank);
+		return (hasBanks()) && com.iConomy.iConomy.Banks.exists(bank);
 	}
 
 	public boolean hasAccount(String name) {
-		return iConomy.hasAccount(name);
+		return com.iConomy.iConomy.hasAccount(name);
 	}
 
 	public boolean hasBankAccount(String bank, String name) {
-		return (!hasBank(bank)) ? false : iConomy.getBank(bank).hasAccount(name);
+		return (hasBank(bank)) && com.iConomy.iConomy.getBank(bank).hasAccount(name);
 	}
 
 	public MethodAccount getAccount(String name) {
-		return new iCoAccount(iConomy.getAccount(name));
+		return new iCoAccount(com.iConomy.iConomy.getAccount(name));
 	}
 
 	public MethodBankAccount getBankAccount(String bank, String name) {
-		return new iCoBankAccount(iConomy.getBank(bank).getAccount(name));
+		return new iCoBankAccount(com.iConomy.iConomy.getBank(bank).getAccount(name));
 	}
 
 	public boolean isCompatible(Plugin plugin) {

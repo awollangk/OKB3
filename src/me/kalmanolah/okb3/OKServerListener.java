@@ -6,9 +6,9 @@ import org.bukkit.event.server.PluginEnableEvent;
 import org.bukkit.event.server.ServerListener;
 
 public class OKServerListener extends ServerListener {
-	@SuppressWarnings("unused")
 	private OKmain plugin;
-	private Methods Methods = null;
+	@SuppressWarnings("unused")
+	private static Methods Methods = null;
 
 	public OKServerListener(OKmain plugin) {
 		this.plugin = plugin;
@@ -17,9 +17,9 @@ public class OKServerListener extends ServerListener {
 
 	@Override
 	public void onPluginEnable(PluginEnableEvent event) {
-		if (!Methods.hasMethod()) {
-			if (Methods.setMethod(event.getPlugin())) {
-				OKmain.Method = Methods.getMethod();
+		if (!me.kalmanolah.extras.com.nijikokun.register.payment.Methods.hasMethod()) {
+			if (me.kalmanolah.extras.com.nijikokun.register.payment.Methods.setMethod(plugin.getServer().getPluginManager())) {
+				OKmain.Method = me.kalmanolah.extras.com.nijikokun.register.payment.Methods.getMethod();
 				OKLogger.info("Hooked into " + OKmain.Method.getName() + " version: " + OKmain.Method.getVersion() + "...");
 			}
 		}

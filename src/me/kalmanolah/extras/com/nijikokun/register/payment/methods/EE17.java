@@ -9,6 +9,16 @@ import com.earth2me.essentials.api.Economy;
 import com.earth2me.essentials.api.NoLoanPermittedException;
 import com.earth2me.essentials.api.UserDoesNotExistException;
 
+/**
+ * Essentials 17 Implementation of Method
+ * 
+ * @author Nijikokun <nijikokun@shortmail.com> (@nijikokun)
+ * @author Snowleo
+ * @author Acrobot
+ * @author KHobbits
+ * @copyright (c) 2011
+ * @license AOL license <http://aol.nexua.org>
+ */
 public class EE17 implements Method {
 	private Essentials Essentials;
 
@@ -22,6 +32,10 @@ public class EE17 implements Method {
 
 	public String getVersion() {
 		return "2.2";
+	}
+
+	public int fractionalDigits() {
+		return -1;
 	}
 
 	public String format(double amount) {

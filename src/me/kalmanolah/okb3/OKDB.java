@@ -26,7 +26,7 @@ public class OKDB {
 			dbm.createTable(query);
 		}
 		if (!dbm.checkTable("posts")) {
-			OKLogger.info("Creating table 'posts'...");
+			OKLogger.dbinfo("Creating table 'posts'...");
 			String query = "CREATE TABLE posts (id INT AUTO_INCREMENT PRIMARY_KEY, name VARCHAR(255), postcount INT(10));";
 			dbm.createTable(query);
 		}
