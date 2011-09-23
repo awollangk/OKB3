@@ -51,7 +51,7 @@ public class OKmain extends JavaPlugin {
 	public static List<Player> kicks = new ArrayList<Player>();
 	public static List<Player> portals = new ArrayList<Player>();
 	public static HashMap<Player, String> cachedjoinmsgs = new HashMap<Player, String>();
-	public static me.kalmanolah.extras.com.nijikokun.register.payment.Method Method = null;
+	public static me.kalmanolah.okb3extras.com.nijikokun.register.payment.Method Method = null;
 
 	public void onEnable() {
 		name = getDescription().getName();
