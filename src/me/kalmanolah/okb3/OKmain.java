@@ -206,11 +206,18 @@ public class OKmain extends JavaPlugin {
 				PermissionSet worldperms = bpManager.getPermissionSet(world);
 				List<String> groups = worldperms.getGroups(player);
 				Iterator<String> plrgrp = groups.iterator();
-				if (!(groups.get(0).equals(groupname) && (groups.size() == 1))) {
-					worldperms.addGroup(player, groupname);
-					while (plrgrp.hasNext()) {
-						worldperms.removeGroup(player, plrgrp.next());
+				if(!groups.isEmpty()){
+					if(!(groups.get(0).equals(groupname) && groups.size() == 1)){
+						worldperms.addGroup(player,groupname);
+						while(plrgrp.hasNext()){
+							String nextgroup = plrgrp.next();
+							if(!nextgroup.equals(groupname)){
+								worldperms.removeGroup(player, nextgroup);
+							}
+						}
 					}
+				}else{
+					worldperms.addGroup(player,groupname);
 				}
 			}
 		}
