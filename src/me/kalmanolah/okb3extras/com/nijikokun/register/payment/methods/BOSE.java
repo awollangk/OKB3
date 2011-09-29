@@ -72,32 +72,38 @@ public class BOSE implements Method {
 			BOSEconomy = bOSEconomy;
 		}
 
+		@SuppressWarnings("deprecation")
 		public double balance() {
 			return Double.valueOf(BOSEconomy.getPlayerMoney(name));
 		}
 
+		@SuppressWarnings("deprecation")
 		public boolean set(double amount) {
 			int IntAmount = (int) Math.ceil(amount);
 			return BOSEconomy.setPlayerMoney(name, IntAmount, false);
 		}
 
+		@SuppressWarnings("deprecation")
 		public boolean add(double amount) {
 			int IntAmount = (int) Math.ceil(amount);
 			return BOSEconomy.addPlayerMoney(name, IntAmount, false);
 		}
 
+		@SuppressWarnings("deprecation")
 		public boolean subtract(double amount) {
 			int IntAmount = (int) Math.ceil(amount);
 			int balance = (int) balance();
 			return BOSEconomy.setPlayerMoney(name, (balance - IntAmount), false);
 		}
 
+		@SuppressWarnings("deprecation")
 		public boolean multiply(double amount) {
 			int IntAmount = (int) Math.ceil(amount);
 			int balance = (int) balance();
 			return BOSEconomy.setPlayerMoney(name, (balance * IntAmount), false);
 		}
 
+		@SuppressWarnings("deprecation")
 		public boolean divide(double amount) {
 			int IntAmount = (int) Math.ceil(amount);
 			int balance = (int) balance();
@@ -143,33 +149,39 @@ public class BOSE implements Method {
 			return -1;
 		}
 
+		@SuppressWarnings("deprecation")
 		public double balance() {
 			return Double.valueOf(BOSEconomy.getBankMoney(name));
 		}
 
+		@SuppressWarnings("deprecation")
 		public boolean set(double amount) {
 			int IntAmount = (int) Math.ceil(amount);
 			return BOSEconomy.setBankMoney(name, IntAmount, true);
 		}
 
+		@SuppressWarnings("deprecation")
 		public boolean add(double amount) {
 			int IntAmount = (int) Math.ceil(amount);
 			int balance = (int) balance();
 			return BOSEconomy.setBankMoney(name, (balance + IntAmount), false);
 		}
 
+		@SuppressWarnings("deprecation")
 		public boolean subtract(double amount) {
 			int IntAmount = (int) Math.ceil(amount);
 			int balance = (int) balance();
 			return BOSEconomy.setBankMoney(name, (balance - IntAmount), false);
 		}
 
+		@SuppressWarnings("deprecation")
 		public boolean multiply(double amount) {
 			int IntAmount = (int) Math.ceil(amount);
 			int balance = (int) balance();
 			return BOSEconomy.setBankMoney(name, (balance * IntAmount), false);
 		}
 
+		@SuppressWarnings("deprecation")
 		public boolean divide(double amount) {
 			int IntAmount = (int) Math.ceil(amount);
 			int balance = (int) balance();

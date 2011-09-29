@@ -114,7 +114,7 @@ public class OKRunnable implements Runnable {
 			if (!kicked) {
 				if (!OKmain.CheckPermission(plr, "bbb.hide")) {
 					try {
-						if(OKmain.cachedjoinmsgs.containsKey(plr)){
+						if (OKmain.cachedjoinmsgs.containsKey(plr)) {
 							plugin.getServer().broadcastMessage(OKmain.cachedjoinmsgs.get(plr));
 						}
 					} catch (Exception e) {
