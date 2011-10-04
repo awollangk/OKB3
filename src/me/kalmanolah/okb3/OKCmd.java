@@ -127,7 +127,7 @@ public class OKCmd implements CommandExecutor {
 					String user = null;
 					String pass = null;
 					ResultSet test = null;
-					test = OKDB.dbm.sqlQuery("SELECT user,encpass FROM players WHERE player = '" + name + "'");
+					test = OKDB.sqlQuery("SELECT user,encpass FROM players WHERE player = '" + name + "'");
 					try {
 						if (test.next()) {
 							do {
@@ -162,7 +162,7 @@ public class OKCmd implements CommandExecutor {
 							String user = null;
 							String pass = null;
 							ResultSet test = null;
-							test = OKDB.dbm.sqlQuery("SELECT user,encpass FROM players WHERE player = '" + name + "'");
+							test = OKDB.sqlQuery("SELECT user,encpass FROM players WHERE player = '" + name + "'");
 							try {
 								if (test.next()) {
 									do {
@@ -204,7 +204,7 @@ public class OKCmd implements CommandExecutor {
 								String user = null;
 								String pass = null;
 								ResultSet test = null;
-								test = OKDB.dbm.sqlQuery("SELECT user,encpass FROM players WHERE player = '" + name + "'");
+								test = OKDB.sqlQuery("SELECT user,encpass FROM players WHERE player = '" + name + "'");
 								try {
 									if (test.next()) {
 										do {
@@ -242,20 +242,20 @@ public class OKCmd implements CommandExecutor {
 					if (OKmain.CheckPermission(getPlayer(sender), "bbb.ban")) {
 						String name = args[0];
 						ResultSet test = null;
-						test = OKDB.dbm.sqlQuery("SELECT player FROM bans WHERE player = '" + name + "'");
+						test = OKDB.sqlQuery("SELECT player FROM bans WHERE player = '" + name + "'");
 						try {
 							if (test.next()) {
 								sendMessage(sender, ChatColor.RED + "Error: " + ChatColor.GRAY + "'" + ChatColor.WHITE + name + ChatColor.GRAY + "' is already banned.");
 							} else {
 								if (args.length == 1) {
-									OKDB.dbm.insertQuery("INSERT into bans (player,reason) VALUES ('" + name + "','" + (String) OKFunctions.getConfig("bans.message") + "')");
+									OKDB.insertQuery("INSERT into bans (player,reason) VALUES ('" + name + "','" + (String) OKFunctions.getConfig("bans.message") + "')");
 								} else {
-									OKDB.dbm.insertQuery("INSERT into bans (player,reason) VALUES ('" + name + "','" + join(args, 1) + "')");
+									OKDB.insertQuery("INSERT into bans (player,reason) VALUES ('" + name + "','" + join(args, 1) + "')");
 								}
 								if ((Integer) OKFunctions.getConfig("mode") == 1) {
 									String user = null;
 									ResultSet test2 = null;
-									test2 = OKDB.dbm.sqlQuery("SELECT user FROM players WHERE player = '" + name + "'");
+									test2 = OKDB.sqlQuery("SELECT user FROM players WHERE player = '" + name + "'");
 									try {
 										if (test2.next()) {
 											do {
@@ -321,20 +321,20 @@ public class OKCmd implements CommandExecutor {
 				} else {
 					String name = args[0];
 					ResultSet test = null;
-					test = OKDB.dbm.sqlQuery("SELECT player FROM bans WHERE player = '" + name + "'");
+					test = OKDB.sqlQuery("SELECT player FROM bans WHERE player = '" + name + "'");
 					try {
 						if (test.next()) {
 							OKLogger.info("Error: " + name + " is already banned.");
 						} else {
 							if (args.length == 1) {
-								OKDB.dbm.insertQuery("INSERT into bans (player,reason) VALUES ('" + name + "','" + (String) OKFunctions.getConfig("bans.message") + "')");
+								OKDB.insertQuery("INSERT into bans (player,reason) VALUES ('" + name + "','" + (String) OKFunctions.getConfig("bans.message") + "')");
 							} else {
-								OKDB.dbm.insertQuery("INSERT into bans (player,reason) VALUES ('" + name + "','" + join(args, 1) + "')");
+								OKDB.insertQuery("INSERT into bans (player,reason) VALUES ('" + name + "','" + join(args, 1) + "')");
 							}
 							if ((Integer) OKFunctions.getConfig("mode") == 1) {
 								String user = null;
 								ResultSet test2 = null;
-								test2 = OKDB.dbm.sqlQuery("SELECT user FROM players WHERE player = '" + name + "'");
+								test2 = OKDB.sqlQuery("SELECT user FROM players WHERE player = '" + name + "'");
 								try {
 									if (test2.next()) {
 										do {
@@ -407,16 +407,16 @@ public class OKCmd implements CommandExecutor {
 					if (OKmain.CheckPermission(getPlayer(sender), "bbb.unban")) {
 						String name = args[0];
 						ResultSet test = null;
-						test = OKDB.dbm.sqlQuery("SELECT player FROM bans WHERE player = '" + name + "'");
+						test = OKDB.sqlQuery("SELECT player FROM bans WHERE player = '" + name + "'");
 						try {
 							if (!test.next()) {
 								sendMessage(sender, ChatColor.RED + "Error: " + ChatColor.GRAY + "'" + ChatColor.WHITE + name + ChatColor.GRAY + "' is not banned.");
 							} else {
-								OKDB.dbm.deleteQuery("DELETE FROM bans WHERE player = '" + name + "'");
+								OKDB.deleteQuery("DELETE FROM bans WHERE player = '" + name + "'");
 								if ((Integer) OKFunctions.getConfig("mode") == 1) {
 									String user = null;
 									ResultSet test2 = null;
-									test2 = OKDB.dbm.sqlQuery("SELECT user FROM players WHERE player = '" + name + "'");
+									test2 = OKDB.sqlQuery("SELECT user FROM players WHERE player = '" + name + "'");
 									try {
 										if (test2.next()) {
 											do {
@@ -473,16 +473,16 @@ public class OKCmd implements CommandExecutor {
 				} else {
 					String name = args[0];
 					ResultSet test = null;
-					test = OKDB.dbm.sqlQuery("SELECT player FROM bans WHERE player = '" + name + "'");
+					test = OKDB.sqlQuery("SELECT player FROM bans WHERE player = '" + name + "'");
 					try {
 						if (!test.next()) {
 							OKLogger.info("Error: " + name + " is not banned.");
 						} else {
-							OKDB.dbm.deleteQuery("DELETE FROM bans WHERE player = '" + name + "'");
+							OKDB.deleteQuery("DELETE FROM bans WHERE player = '" + name + "'");
 							if ((Integer) OKFunctions.getConfig("mode") == 1) {
 								String user = null;
 								ResultSet test2 = null;
-								test2 = OKDB.dbm.sqlQuery("SELECT user FROM players WHERE player = '" + name + "'");
+								test2 = OKDB.sqlQuery("SELECT user FROM players WHERE player = '" + name + "'");
 								try {
 									if (test2.next()) {
 										do {
@@ -552,7 +552,7 @@ public class OKCmd implements CommandExecutor {
 							rank = OKFunctions.getRankNormal(name);
 						} else {
 							ResultSet test = null;
-							test = OKDB.dbm.sqlQuery("SELECT user,encpass FROM players WHERE player = '" + name + "'");
+							test = OKDB.sqlQuery("SELECT user,encpass FROM players WHERE player = '" + name + "'");
 							try {
 								if (test.next()) {
 									do {
@@ -677,7 +677,7 @@ public class OKCmd implements CommandExecutor {
 							rank = OKFunctions.getRankNormal(name);
 						} else {
 							ResultSet test = null;
-							test = OKDB.dbm.sqlQuery("SELECT user,encpass FROM players WHERE player = '" + name + "'");
+							test = OKDB.sqlQuery("SELECT user,encpass FROM players WHERE player = '" + name + "'");
 							try {
 								if (test.next()) {
 									do {
@@ -805,7 +805,7 @@ public class OKCmd implements CommandExecutor {
 							try {
 								if ((Integer) OKFunctions.getConfig("mode") == 1) {
 									ResultSet test = null;
-									test = OKDB.dbm.sqlQuery("SELECT user,encpass FROM players WHERE player = '" + name + "'");
+									test = OKDB.sqlQuery("SELECT user,encpass FROM players WHERE player = '" + name + "'");
 									try {
 										if (test.next()) {
 											do {

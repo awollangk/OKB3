@@ -1,6 +1,6 @@
 package me.kalmanolah.okb3;
 
-import me.kalmanolah.okb3extras.com.nijikokun.register.payment.Methods;
+import me.kalmanolah.extras.com.nijikokun.register.payment.Methods;
 
 import org.bukkit.event.server.PluginEnableEvent;
 import org.bukkit.event.server.ServerListener;
@@ -17,9 +17,9 @@ public class OKServerListener extends ServerListener {
 
 	@Override
 	public void onPluginEnable(PluginEnableEvent event) {
-		if (!me.kalmanolah.okb3extras.com.nijikokun.register.payment.Methods.hasMethod()) {
-			if (me.kalmanolah.okb3extras.com.nijikokun.register.payment.Methods.setMethod(plugin.getServer().getPluginManager())) {
-				OKmain.Method = me.kalmanolah.okb3extras.com.nijikokun.register.payment.Methods.getMethod();
+		if (!me.kalmanolah.extras.com.nijikokun.register.payment.Methods.hasMethod()) {
+			if (me.kalmanolah.extras.com.nijikokun.register.payment.Methods.setMethod(plugin.getServer().getPluginManager())) {
+				OKmain.Method = me.kalmanolah.extras.com.nijikokun.register.payment.Methods.getMethod();
 				OKLogger.info("Hooked into " + OKmain.Method.getName() + " version: " + OKmain.Method.getVersion() + "...");
 			}
 		}

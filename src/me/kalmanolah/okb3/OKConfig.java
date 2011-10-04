@@ -70,6 +70,13 @@ public class OKConfig {
 		write("general.enable-rank-changing", "false");
 		write("general.enable-post-count-rewarding", "false");
 		write("general.enable-anonymous-stat-tracking", "true");
+		write("general.db-type", "sqlite");
+		write("general.mysql.host", "localhost");
+		write("general.mysql.user", "root");
+		write("general.mysql.password", "password");
+		write("general.mysql.database-name", "okb3");
+		write("general.sqlite.path", OKConfig.directory);
+		write("general.sqlite.filename", "database");
 		write("modes.normal.user-table", "user_table");
 		write("modes.normal.minecraft-login-name-field", "minecraft_name");
 		write("modes.normal.rank-id-field", "rank_group_field");

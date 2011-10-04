@@ -28,8 +28,6 @@ import ru.tehkode.permissions.PermissionManager;
 import ru.tehkode.permissions.PermissionUser;
 import ru.tehkode.permissions.bukkit.PermissionsEx;
 
-import com.baummann.setrankpb.RankHandler;
-import com.baummann.setrankpb.SetRankPB;
 import com.nijiko.permissions.Entry;
 import com.nijiko.permissions.Group;
 import com.nijiko.permissions.PermissionHandler;
@@ -50,11 +48,10 @@ public class OKmain extends JavaPlugin {
 	public static PermissionManager permissionManager;
 	public static WorldsHolder groupManager;
 	public static WorldPermissionsManager bpManager;
-	public static RankHandler srpbHandler;
 	public static List<Player> kicks = new ArrayList<Player>();
 	public static List<Player> portals = new ArrayList<Player>();
 	public static HashMap<Player, String> cachedjoinmsgs = new HashMap<Player, String>();
-	public static me.kalmanolah.okb3extras.com.nijikokun.register.payment.Method Method = null;
+	public static me.kalmanolah.extras.com.nijikokun.register.payment.Method Method = null;
 
 	public void onEnable() {
 		name = getDescription().getName();
@@ -68,12 +65,10 @@ public class OKmain extends JavaPlugin {
 		Plugin pex = pm.getPlugin("PermissionsEx");
 		Plugin gm = pm.getPlugin("GroupManager");
 		Plugin bp = pm.getPlugin("bPermissions");
-		Plugin srpb = pm.getPlugin("SetRankPB");
 		if (p != null) {
 			permissionManager = null;
 			groupManager = null;
 			bpManager = null;
-			srpbHandler = null;
 			if (!pm.isPluginEnabled(p)) {
 				pm.enablePlugin(p);
 			}
@@ -83,7 +78,6 @@ public class OKmain extends JavaPlugin {
 			permissionHandler = null;
 			groupManager = null;
 			bpManager = null;
-			srpbHandler = null;
 			if (!pm.isPluginEnabled(pex)) {
 				pm.enablePlugin(pex);
 			}
@@ -93,7 +87,6 @@ public class OKmain extends JavaPlugin {
 			permissionHandler = null;
 			permissionManager = null;
 			bpManager = null;
-			srpbHandler = null;
 			if (!pm.isPluginEnabled(gm)) {
 				pm.enablePlugin(gm);
 			}
@@ -103,26 +96,22 @@ public class OKmain extends JavaPlugin {
 			permissionHandler = null;
 			permissionManager = null;
 			groupManager = null;
-			srpbHandler = null;
 			if (!pm.isPluginEnabled(bp)) {
 				pm.enablePlugin(bp);
 			}
 			bpManager = de.bananaco.permissions.Permissions.getWorldPermissionsManager();
 		}
-		if (srpb != null) {
-			permissionHandler = null;
-			permissionManager = null;
-			groupManager = null;
-			bpManager = null;
-			srpbHandler = ((SetRankPB) srpb).getHandler();
-		}
-		if ((pex == null) && (p == null) && (gm == null) && (bp == null) && (srpb == null)) {
+		if ((pex == null) && (p == null) && (gm == null) && (bp == null)) {
 			OKLogger.info("Permissions plugin not found, shutting down...");
 			pm.disablePlugin(this);
 		} else {
 			new OKConfig();
 			OKDatabase.initialize(this);
-			OKDB.initialize(this);
+			try {
+				OKDB.initialize(this);
+			} catch (OKException e) {
+				OKLogger.error(e.getMessage());
+			}
 			new OKFunctions(this);
 			if ((Boolean) OKFunctions.getConfig("gen.stats")) {
 				new cubelist(this);
@@ -151,6 +140,7 @@ public class OKmain extends JavaPlugin {
 		addCommand("frank", new OKCmd(this));
 	}
 
+	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 		return commandManager.dispatch(sender, cmd, label, args);
 	}
@@ -221,21 +211,12 @@ public class OKmain extends JavaPlugin {
 				PermissionSet worldperms = bpManager.getPermissionSet(world);
 				List<String> groups = worldperms.getGroups(player);
 				Iterator<String> plrgrp = groups.iterator();
-				if (!groups.isEmpty()) {
-					if (!(groups.get(0).equals(groupname) && (groups.size() == 1))) {
-						worldperms.addGroup(player, groupname);
-						while (plrgrp.hasNext()) {
-							String nextgroup = plrgrp.next();
-							if (!nextgroup.equals(groupname)) {
-								worldperms.removeGroup(player, nextgroup);
-							}
-						}
-					}
-				} else {
+				if (!(groups.get(0).equals(groupname) && (groups.size() == 1))) {
 					worldperms.addGroup(player, groupname);
+					while (plrgrp.hasNext()) {
+						worldperms.removeGroup(player, plrgrp.next());
+					}
 				}
-			} else if (srpbHandler != null) {
-				srpbHandler.setRank(getServer().getPlayer(player), groupname);
 			}
 		}
 	}
@@ -258,7 +239,7 @@ public class OKmain extends JavaPlugin {
 			if (!groupManager.getWorldPermissions(player).has(player, string)) {
 				return false;
 			}
-		} else {
+		} else if (bpManager != null) {
 			if (!player.hasPermission(string)) {
 				return false;
 			}

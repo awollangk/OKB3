@@ -48,14 +48,22 @@ public class OKFunctions {
 		if ((Integer) getConfig("mode") == 1) {
 			String user = null;
 			ResultSet test = null;
-			test = OKDB.dbm.sqlQuery("SELECT user FROM players WHERE player = '" + name + "'");
 			try {
+				test = OKDB.sqlQuery("SELECT user FROM players WHERE player = '" + name + "'");
 				if (test.next()) {
 					do {
 						user = test.getString("user");
 					} while (test.next());
 				}
 				test.close();
+			} catch (MalformedURLException e) {
+				e.printStackTrace();
+			} catch (InstantiationException e) {
+				e.printStackTrace();
+			} catch (IllegalAccessException e) {
+				e.printStackTrace();
+			} catch (OKException e) {
+				e.printStackTrace();
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
@@ -213,8 +221,18 @@ public class OKFunctions {
 		String rank = getRankSecurePass(user, pass);
 		if (rank != null) {
 			plugin.changeGroup(plrname, rank, "nope", true);
-			OKDB.dbm.deleteQuery("DELETE FROM players WHERE player = '" + plrname + "'");
-			OKDB.dbm.insertQuery("INSERT INTO players (player,user,encpass) VALUES ('" + plrname + "','" + user + "','" + pass + "')");
+			try {
+				OKDB.deleteQuery("DELETE FROM players WHERE player = '" + plrname + "'");
+				OKDB.insertQuery("INSERT INTO players (player,user,encpass) VALUES ('" + plrname + "','" + user + "','" + pass + "')");
+			} catch (MalformedURLException e) {
+				e.printStackTrace();
+			} catch (InstantiationException e) {
+				e.printStackTrace();
+			} catch (IllegalAccessException e) {
+				e.printStackTrace();
+			} catch (OKException e) {
+				e.printStackTrace();
+			}
 			if (!force) {
 				sender.sendMessage(ChatColor.GOLD + "Notice: " + ChatColor.GRAY + "Synchronization successful.");
 				OKLogger.info("[SYNC] " + plrname + "'s ranks successfully updated.");
@@ -457,9 +475,10 @@ public class OKFunctions {
 	}
 
 	public static Integer GetSQLitePosts(Player player) {
-		int posts = 0;
-		ResultSet check = OKDB.dbm.sqlQuery("SELECT postcount FROM posts WHERE name = '" + player.getName() + "'");
+		int       posts = 0;
+		ResultSet check;
 		try {
+			check = OKDB.sqlQuery("SELECT postcount FROM posts WHERE name = '" + player.getName() + "'");
 			if (check.next()) {
 				do {
 					posts = check.getInt("postcount");
@@ -468,19 +487,31 @@ public class OKFunctions {
 			check.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
+		} catch (MalformedURLException e) {
+			e.printStackTrace();
+		} catch (InstantiationException e) {
+			e.printStackTrace();
+		} catch (IllegalAccessException e) {
+			e.printStackTrace();
 		}
 		return posts;
 	}
 
 	public static void UpdateSQLitePosts(Player player, Integer posts) {
-		ResultSet check = OKDB.dbm.sqlQuery("SELECT id FROM posts WHERE name = '" + player.getName() + "'");
 		try {
+			ResultSet check = OKDB.sqlQuery("SELECT id FROM posts WHERE name = '" + player.getName() + "'");
 			if (check.next()) {
-				OKDB.dbm.updateQuery("UPDATE posts SET postcount = " + posts + " WHERE name = '" + player.getName() + "'");
+				OKDB.updateQuery("UPDATE posts SET postcount = " + posts + " WHERE name = '" + player.getName() + "'");
 			} else {
-				OKDB.dbm.insertQuery("INSERT INTO posts (name,postcount) VALUES ('" + player.getName() + "'," + posts + ")");
+				OKDB.insertQuery("INSERT INTO posts (name,postcount) VALUES ('" + player.getName() + "'," + posts + ")");
 			}
 			check.close();
+		} catch (MalformedURLException e) {
+			e.printStackTrace();
+		} catch (InstantiationException e) {
+			e.printStackTrace();
+		} catch (IllegalAccessException e) {
+			e.printStackTrace();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -492,14 +523,20 @@ public class OKFunctions {
 		String identifier = null;
 		if ((Integer) getConfig("mode") == 1) {
 			ResultSet test = null;
-			test = OKDB.dbm.sqlQuery("SELECT user FROM players WHERE player = '" + name + "'");
 			try {
+				test = OKDB.sqlQuery("SELECT user FROM players WHERE player = '" + name + "'");
 				if (test.next()) {
 					do {
 						identifier = test.getString("user");
 					} while (test.next());
 				}
 				test.close();
+			} catch (MalformedURLException e) {
+				e.printStackTrace();
+			} catch (InstantiationException e) {
+				e.printStackTrace();
+			} catch (IllegalAccessException e) {
+				e.printStackTrace();
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}

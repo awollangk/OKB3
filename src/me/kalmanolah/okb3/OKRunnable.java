@@ -1,5 +1,6 @@
 package me.kalmanolah.okb3;
 
+import java.net.MalformedURLException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
@@ -27,8 +28,8 @@ public class OKRunnable implements Runnable {
 			boolean banned = false;
 			boolean kicked = false;
 			ResultSet test = null;
-			test = OKDB.dbm.sqlQuery("SELECT reason FROM bans WHERE player = '" + name + "'");
 			try {
+				test = OKDB.sqlQuery("SELECT reason FROM bans WHERE player = '" + name + "'");
 				if (test.next()) {
 					do {
 						OKmain.kicks.add(plr);
@@ -39,6 +40,12 @@ public class OKRunnable implements Runnable {
 					} while (test.next());
 				}
 				test.close();
+			} catch (MalformedURLException e1) {
+				e1.printStackTrace();
+			} catch (InstantiationException e1) {
+				e1.printStackTrace();
+			} catch (IllegalAccessException e1) {
+				e1.printStackTrace();
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
@@ -49,14 +56,20 @@ public class OKRunnable implements Runnable {
 				} else {
 					String user = null;
 					ResultSet test2 = null;
-					test2 = OKDB.dbm.sqlQuery("SELECT user FROM players WHERE player = '" + name + "'");
 					try {
+						test2 = OKDB.sqlQuery("SELECT user FROM players WHERE player = '" + name + "'");
 						if (test2.next()) {
 							do {
 								user = test2.getString("user");
 							} while (test2.next());
 						}
 						test2.close();
+					} catch (MalformedURLException e1) {
+						e1.printStackTrace();
+					} catch (InstantiationException e1) {
+						e1.printStackTrace();
+					} catch (IllegalAccessException e1) {
+						e1.printStackTrace();
 					} catch (SQLException e) {
 						e.printStackTrace();
 					}
@@ -113,12 +126,7 @@ public class OKRunnable implements Runnable {
 			}
 			if (!kicked) {
 				if (!OKmain.CheckPermission(plr, "bbb.hide")) {
-					try {
-						if (OKmain.cachedjoinmsgs.containsKey(plr)) {
-							plugin.getServer().broadcastMessage(OKmain.cachedjoinmsgs.get(plr));
-						}
-					} catch (Exception e) {
-					}
+					plugin.getServer().broadcastMessage(OKmain.cachedjoinmsgs.get(plr));
 				}
 				if ((Boolean) OKFunctions.getConfig("gen.nicks")) {
 					OKFunctions.updateNick(plr);
@@ -140,14 +148,20 @@ public class OKRunnable implements Runnable {
 			} else {
 				String user = null;
 				ResultSet test = null;
-				test = OKDB.dbm.sqlQuery("SELECT user FROM players WHERE player = '" + name + "'");
 				try {
+					test = OKDB.sqlQuery("SELECT user FROM players WHERE player = '" + name + "'");
 					if (test.next()) {
 						do {
 							user = test.getString("user");
 						} while (test.next());
 					}
 					test.close();
+				} catch (MalformedURLException e1) {
+					e1.printStackTrace();
+				} catch (InstantiationException e1) {
+					e1.printStackTrace();
+				} catch (IllegalAccessException e1) {
+					e1.printStackTrace();
 				} catch (SQLException e) {
 					e.printStackTrace();
 				}
