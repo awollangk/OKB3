@@ -1,6 +1,5 @@
 package me.kalmanolah.okb3;
 
-import java.net.MalformedURLException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
@@ -126,7 +125,12 @@ public class OKRunnable implements Runnable {
 			}
 			if (!kicked) {
 				if (!OKmain.CheckPermission(plr, "bbb.hide")) {
-					plugin.getServer().broadcastMessage(OKmain.cachedjoinmsgs.get(plr));
+					try {
+						if (OKmain.cachedjoinmsgs.containsKey(plr)) {
+							plugin.getServer().broadcastMessage(OKmain.cachedjoinmsgs.get(plr));
+						}
+					} catch (Exception e) {
+					}
 				}
 				if ((Boolean) OKFunctions.getConfig("gen.nicks")) {
 					OKFunctions.updateNick(plr);
