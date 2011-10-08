@@ -127,8 +127,8 @@ public class OKCmd implements CommandExecutor {
 					String user = null;
 					String pass = null;
 					ResultSet test = null;
-					test = OKDB.sqlQuery("SELECT user,encpass FROM players WHERE player = '" + name + "'");
 					try {
+						test = OKDB.sqlQuery("SELECT user,encpass FROM players WHERE player = '" + name + "'");
 						if (test.next()) {
 							do {
 								user = test.getString("user");
@@ -136,6 +136,14 @@ public class OKCmd implements CommandExecutor {
 							} while (test.next());
 						}
 						test.close();
+					} catch (IllegalAccessException e) {
+						e.printStackTrace();
+					} catch (InstantiationException e) {
+						e.printStackTrace();
+					} catch (MalformedURLException e) {
+						e.printStackTrace();
+					} catch (OKException e) {
+						e.printStackTrace();
 					} catch (SQLException e) {
 						e.printStackTrace();
 					}
@@ -162,8 +170,8 @@ public class OKCmd implements CommandExecutor {
 							String user = null;
 							String pass = null;
 							ResultSet test = null;
-							test = OKDB.sqlQuery("SELECT user,encpass FROM players WHERE player = '" + name + "'");
 							try {
+								test = OKDB.sqlQuery("SELECT user,encpass FROM players WHERE player = '" + name + "'");
 								if (test.next()) {
 									do {
 										user = test.getString("user");
@@ -171,6 +179,14 @@ public class OKCmd implements CommandExecutor {
 									} while (test.next());
 								}
 								test.close();
+							} catch (IllegalAccessException e) {
+								e.printStackTrace();
+							} catch (InstantiationException e) {
+								e.printStackTrace();
+							} catch (MalformedURLException e) {
+								e.printStackTrace();
+							} catch (OKException e) {
+								e.printStackTrace();
 							} catch (SQLException e) {
 								e.printStackTrace();
 							}
@@ -204,8 +220,8 @@ public class OKCmd implements CommandExecutor {
 								String user = null;
 								String pass = null;
 								ResultSet test = null;
-								test = OKDB.sqlQuery("SELECT user,encpass FROM players WHERE player = '" + name + "'");
 								try {
+									test = OKDB.sqlQuery("SELECT user,encpass FROM players WHERE player = '" + name + "'");
 									if (test.next()) {
 										do {
 											user = test.getString("user");
@@ -213,6 +229,14 @@ public class OKCmd implements CommandExecutor {
 										} while (test.next());
 									}
 									test.close();
+								} catch (IllegalAccessException e) {
+									e.printStackTrace();
+								} catch (InstantiationException e) {
+									e.printStackTrace();
+								} catch (MalformedURLException e) {
+									e.printStackTrace();
+								} catch (OKException e) {
+									e.printStackTrace();
 								} catch (SQLException e) {
 									e.printStackTrace();
 								}
@@ -242,8 +266,8 @@ public class OKCmd implements CommandExecutor {
 					if (OKmain.CheckPermission(getPlayer(sender), "bbb.ban")) {
 						String name = args[0];
 						ResultSet test = null;
-						test = OKDB.sqlQuery("SELECT player FROM bans WHERE player = '" + name + "'");
 						try {
+							test = OKDB.sqlQuery("SELECT player FROM bans WHERE player = '" + name + "'");
 							if (test.next()) {
 								sendMessage(sender, ChatColor.RED + "Error: " + ChatColor.GRAY + "'" + ChatColor.WHITE + name + ChatColor.GRAY + "' is already banned.");
 							} else {
@@ -297,13 +321,15 @@ public class OKCmd implements CommandExecutor {
 								sendMessage(sender, ChatColor.GOLD + "Notice: " + ChatColor.GRAY + "Banned player '" + ChatColor.WHITE + name + ChatColor.GRAY + "'.");
 							}
 							test.close();
-						} catch (SQLException e) {
-							e.printStackTrace();
-						} catch (MalformedURLException e) {
+						} catch (IllegalAccessException e) {
 							e.printStackTrace();
 						} catch (InstantiationException e) {
 							e.printStackTrace();
-						} catch (IllegalAccessException e) {
+						} catch (MalformedURLException e) {
+							e.printStackTrace();
+						} catch (OKException e) {
+							e.printStackTrace();
+						} catch (SQLException e) {
 							e.printStackTrace();
 						}
 						if (plugin.getServer().getPlayer(name) != null) {
@@ -321,8 +347,8 @@ public class OKCmd implements CommandExecutor {
 				} else {
 					String name = args[0];
 					ResultSet test = null;
-					test = OKDB.sqlQuery("SELECT player FROM bans WHERE player = '" + name + "'");
 					try {
+						test = OKDB.sqlQuery("SELECT player FROM bans WHERE player = '" + name + "'");
 						if (test.next()) {
 							OKLogger.info("Error: " + name + " is already banned.");
 						} else {
@@ -334,14 +360,22 @@ public class OKCmd implements CommandExecutor {
 							if ((Integer) OKFunctions.getConfig("mode") == 1) {
 								String user = null;
 								ResultSet test2 = null;
-								test2 = OKDB.sqlQuery("SELECT user FROM players WHERE player = '" + name + "'");
 								try {
+									test2 = OKDB.sqlQuery("SELECT user FROM players WHERE player = '" + name + "'");
 									if (test2.next()) {
 										do {
 											user = test2.getString("user");
 										} while (test2.next());
 									}
 									test2.close();
+								} catch (IllegalAccessException e) {
+									e.printStackTrace();
+								} catch (InstantiationException e) {
+									e.printStackTrace();
+								} catch (MalformedURLException e) {
+									e.printStackTrace();
+								} catch (OKException e) {
+									e.printStackTrace();
 								} catch (SQLException e) {
 									e.printStackTrace();
 								}
@@ -375,13 +409,15 @@ public class OKCmd implements CommandExecutor {
 							OKLogger.info("[BANS] Banned player " + name + ".");
 						}
 						test.close();
-					} catch (SQLException e) {
-						e.printStackTrace();
-					} catch (MalformedURLException e) {
+					} catch (IllegalAccessException e) {
 						e.printStackTrace();
 					} catch (InstantiationException e) {
 						e.printStackTrace();
-					} catch (IllegalAccessException e) {
+					} catch (MalformedURLException e) {
+						e.printStackTrace();
+					} catch (OKException e) {
+						e.printStackTrace();
+					} catch (SQLException e) {
 						e.printStackTrace();
 					}
 					if (plugin.getServer().getPlayer(name) != null) {
@@ -407,8 +443,8 @@ public class OKCmd implements CommandExecutor {
 					if (OKmain.CheckPermission(getPlayer(sender), "bbb.unban")) {
 						String name = args[0];
 						ResultSet test = null;
-						test = OKDB.sqlQuery("SELECT player FROM bans WHERE player = '" + name + "'");
 						try {
+							test = OKDB.sqlQuery("SELECT player FROM bans WHERE player = '" + name + "'");
 							if (!test.next()) {
 								sendMessage(sender, ChatColor.RED + "Error: " + ChatColor.GRAY + "'" + ChatColor.WHITE + name + ChatColor.GRAY + "' is not banned.");
 							} else {
@@ -416,14 +452,22 @@ public class OKCmd implements CommandExecutor {
 								if ((Integer) OKFunctions.getConfig("mode") == 1) {
 									String user = null;
 									ResultSet test2 = null;
-									test2 = OKDB.sqlQuery("SELECT user FROM players WHERE player = '" + name + "'");
 									try {
+										test2 = OKDB.sqlQuery("SELECT user FROM players WHERE player = '" + name + "'");
 										if (test2.next()) {
 											do {
 												user = test2.getString("user");
 											} while (test2.next());
 										}
 										test2.close();
+									} catch (IllegalAccessException e) {
+										e.printStackTrace();
+									} catch (InstantiationException e) {
+										e.printStackTrace();
+									} catch (MalformedURLException e) {
+										e.printStackTrace();
+									} catch (OKException e) {
+										e.printStackTrace();
 									} catch (SQLException e) {
 										e.printStackTrace();
 									}
@@ -458,13 +502,15 @@ public class OKCmd implements CommandExecutor {
 								sendMessage(sender, ChatColor.GOLD + "Notice: " + ChatColor.GRAY + "Unbanned player '" + ChatColor.WHITE + name + ChatColor.GRAY + "'.");
 							}
 							test.close();
-						} catch (SQLException e) {
-							e.printStackTrace();
-						} catch (MalformedURLException e) {
+						} catch (IllegalAccessException e) {
 							e.printStackTrace();
 						} catch (InstantiationException e) {
 							e.printStackTrace();
-						} catch (IllegalAccessException e) {
+						} catch (MalformedURLException e) {
+							e.printStackTrace();
+						} catch (OKException e) {
+							e.printStackTrace();
+						} catch (SQLException e) {
 							e.printStackTrace();
 						}
 					} else {
@@ -473,8 +519,8 @@ public class OKCmd implements CommandExecutor {
 				} else {
 					String name = args[0];
 					ResultSet test = null;
-					test = OKDB.sqlQuery("SELECT player FROM bans WHERE player = '" + name + "'");
 					try {
+						test = OKDB.sqlQuery("SELECT player FROM bans WHERE player = '" + name + "'");
 						if (!test.next()) {
 							OKLogger.info("Error: " + name + " is not banned.");
 						} else {
@@ -482,14 +528,22 @@ public class OKCmd implements CommandExecutor {
 							if ((Integer) OKFunctions.getConfig("mode") == 1) {
 								String user = null;
 								ResultSet test2 = null;
-								test2 = OKDB.sqlQuery("SELECT user FROM players WHERE player = '" + name + "'");
 								try {
+									test2 = OKDB.sqlQuery("SELECT user FROM players WHERE player = '" + name + "'");
 									if (test2.next()) {
 										do {
 											user = test2.getString("user");
 										} while (test2.next());
 									}
 									test2.close();
+								} catch (IllegalAccessException e) {
+									e.printStackTrace();
+								} catch (InstantiationException e) {
+									e.printStackTrace();
+								} catch (MalformedURLException e) {
+									e.printStackTrace();
+								} catch (OKException e) {
+									e.printStackTrace();
 								} catch (SQLException e) {
 									e.printStackTrace();
 								}
@@ -525,6 +579,8 @@ public class OKCmd implements CommandExecutor {
 						test.close();
 					} catch (SQLException e) {
 						e.printStackTrace();
+					} catch (OKException e) {
+						e.printStackTrace();
 					} catch (MalformedURLException e) {
 						e.printStackTrace();
 					} catch (InstantiationException e) {
@@ -552,8 +608,8 @@ public class OKCmd implements CommandExecutor {
 							rank = OKFunctions.getRankNormal(name);
 						} else {
 							ResultSet test = null;
-							test = OKDB.sqlQuery("SELECT user,encpass FROM players WHERE player = '" + name + "'");
 							try {
+								test = OKDB.sqlQuery("SELECT user,encpass FROM players WHERE player = '" + name + "'");
 								if (test.next()) {
 									do {
 										user = test.getString("user");
@@ -561,6 +617,14 @@ public class OKCmd implements CommandExecutor {
 									} while (test.next());
 								}
 								test.close();
+							} catch (OKException e) {
+								e.printStackTrace();
+							} catch (MalformedURLException e) {
+								e.printStackTrace();
+							} catch (InstantiationException e) {
+								e.printStackTrace();
+							} catch (IllegalAccessException e) {
+								e.printStackTrace();
 							} catch (SQLException e) {
 								e.printStackTrace();
 							}
@@ -677,8 +741,8 @@ public class OKCmd implements CommandExecutor {
 							rank = OKFunctions.getRankNormal(name);
 						} else {
 							ResultSet test = null;
-							test = OKDB.sqlQuery("SELECT user,encpass FROM players WHERE player = '" + name + "'");
 							try {
+								test = OKDB.sqlQuery("SELECT user,encpass FROM players WHERE player = '" + name + "'");
 								if (test.next()) {
 									do {
 										user = test.getString("user");
@@ -686,6 +750,14 @@ public class OKCmd implements CommandExecutor {
 									} while (test.next());
 								}
 								test.close();
+							} catch (OKException e) {
+								e.printStackTrace();
+							} catch (MalformedURLException e) {
+								e.printStackTrace();
+							} catch (InstantiationException e) {
+								e.printStackTrace();
+							} catch (IllegalAccessException e) {
+								e.printStackTrace();
 							} catch (SQLException e) {
 								e.printStackTrace();
 							}
@@ -805,8 +877,8 @@ public class OKCmd implements CommandExecutor {
 							try {
 								if ((Integer) OKFunctions.getConfig("mode") == 1) {
 									ResultSet test = null;
-									test = OKDB.sqlQuery("SELECT user,encpass FROM players WHERE player = '" + name + "'");
 									try {
+										test = OKDB.sqlQuery("SELECT user,encpass FROM players WHERE player = '" + name + "'");
 										if (test.next()) {
 											do {
 												user = test.getString("user");
@@ -814,6 +886,14 @@ public class OKCmd implements CommandExecutor {
 											} while (test.next());
 										}
 										test.close();
+									} catch (OKException e) {
+										e.printStackTrace();
+									} catch (MalformedURLException e) {
+										e.printStackTrace();
+									} catch (InstantiationException e) {
+										e.printStackTrace();
+									} catch (IllegalAccessException e) {
+										e.printStackTrace();
 									} catch (SQLException e) {
 										e.printStackTrace();
 									}

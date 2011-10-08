@@ -487,6 +487,8 @@ public class OKFunctions {
 			check.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
+		} catch (OKException e) {
+			e.printStackTrace();
 		} catch (MalformedURLException e) {
 			e.printStackTrace();
 		} catch (InstantiationException e) {
@@ -512,6 +514,8 @@ public class OKFunctions {
 			e.printStackTrace();
 		} catch (IllegalAccessException e) {
 			e.printStackTrace();
+		} catch (OKException e) {
+			e.printStackTrace();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -536,6 +540,8 @@ public class OKFunctions {
 			} catch (InstantiationException e) {
 				e.printStackTrace();
 			} catch (IllegalAccessException e) {
+				e.printStackTrace();
+			} catch (OKException e) {
 				e.printStackTrace();
 			} catch (SQLException e) {
 				e.printStackTrace();

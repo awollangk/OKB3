@@ -1,5 +1,6 @@
 package me.kalmanolah.okb3;
 
+import java.net.MalformedURLException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
@@ -45,6 +46,8 @@ public class OKRunnable implements Runnable {
 				e1.printStackTrace();
 			} catch (IllegalAccessException e1) {
 				e1.printStackTrace();
+			} catch (OKException e) {
+				e.printStackTrace();
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
@@ -69,6 +72,8 @@ public class OKRunnable implements Runnable {
 						e1.printStackTrace();
 					} catch (IllegalAccessException e1) {
 						e1.printStackTrace();
+					} catch (OKException e) {
+						e.printStackTrace();
 					} catch (SQLException e) {
 						e.printStackTrace();
 					}
@@ -166,6 +171,8 @@ public class OKRunnable implements Runnable {
 					e1.printStackTrace();
 				} catch (IllegalAccessException e1) {
 					e1.printStackTrace();
+				} catch (OKException e) {
+					e.printStackTrace();
 				} catch (SQLException e) {
 					e.printStackTrace();
 				}
