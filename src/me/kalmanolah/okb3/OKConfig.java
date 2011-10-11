@@ -146,6 +146,13 @@ public class OKConfig {
 		config.put("gen.ranks", Boolean.parseBoolean(readString("general.enable-rank-changing")));
 		config.put("gen.posts", Boolean.parseBoolean(readString("general.enable-post-count-rewarding")));
 		config.put("gen.stats", Boolean.parseBoolean(readString("general.enable-anonymous-stat-tracking")));
+		config.put("gen.dbtype", readString("general.db-type").toUpperCase());
+		config.put("gen.mysql.host", readString("general.mysql.host"));
+		config.put("gen.mysql.user", readString("general.mysql.user"));
+		config.put("gen.mysql.password", readString("general.mysql.password"));
+		config.put("gen.mysql.dbname", readString("general.mysql.database-name"));
+		config.put("gen.sqlite.path", readString("general.sqlite.path"));
+		config.put("gen.sqlite.filename", readString("general.sqlite.filename"));
 		config.put("mysql.host", readString("mysql-connection.mysql-host"));
 		config.put("mysql.user", readString("mysql-connection.mysql-user"));
 		config.put("mysql.pass", readString("mysql-connection.mysql-password"));
