@@ -242,14 +242,7 @@ public class OKmain extends JavaPlugin {
 
 	public static boolean CheckPermission(Player player, String string) {
 		if (permissionHandler != null) {
-			User usr = permissionHandler.getUserObject(player.getWorld().getName(), player.getName());
-			if (usr != null) {
-				if (!usr.hasPermission(string)) {
-					return false;
-				}
-			} else {
-				return false;
-			}
+			return permissionHandler.has(player, string);
 		} else if (permissionManager != null) {
 			if (!permissionManager.has(player, string)) {
 				return false;

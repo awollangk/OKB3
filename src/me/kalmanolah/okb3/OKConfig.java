@@ -8,6 +8,7 @@ import java.util.List;
 
 import org.bukkit.util.config.Configuration;
 
+@SuppressWarnings("deprecation")
 public class OKConfig {
 	static HashMap<String, Object> config = new HashMap<String, Object>();
 	static String directory = "plugins" + File.separator + OKmain.name;
@@ -48,7 +49,6 @@ public class OKConfig {
 	private static Configuration load() {
 		try {
 			Configuration config = new Configuration(file);
-			config.load();
 			return config;
 		} catch (Exception e) {
 			e.printStackTrace();

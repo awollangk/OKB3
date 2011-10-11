@@ -587,7 +587,7 @@ public class OKCmd implements CommandExecutor {
 								if (!(newrankid > (track.size() - 1))) {
 									if (track.get(newrankid) != null) {
 										String newrank = track.get(newrankid);
-										if (OKmain.CheckPermission(getPlayer(sender), "bbb.promote." + String.valueOf(newrankid))) {
+										if (OKmain.CheckPermission(getPlayer(sender), "bbb.promote." + newrank)) {
 											try {
 												if ((Integer) OKFunctions.getConfig("mode") == 1) {
 													if (user != null) {
@@ -712,7 +712,7 @@ public class OKCmd implements CommandExecutor {
 								if (!(newrankid < 0)) {
 									if (track.get(newrankid) != null) {
 										String newrank = track.get(newrankid);
-										if (OKmain.CheckPermission(getPlayer(sender), "bbb.promote." + String.valueOf(newrankid))) {
+										if (OKmain.CheckPermission(getPlayer(sender), "bbb.promote." + newrank)) {
 											try {
 												if ((Integer) OKFunctions.getConfig("mode") == 1) {
 													if (user != null) {
