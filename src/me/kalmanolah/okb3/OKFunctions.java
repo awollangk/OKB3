@@ -79,7 +79,7 @@ public class OKFunctions {
 					do {
 						String nick = rs.getString(nickfield);
 						if (nick != null) {
-							if (!nick.equals("null") || !nick.equals("")) {
+							if (!nick.equals("null") && !nick.equals("")) {
 								player.setDisplayName(nick);
 								OKLogger.info("[NICK-SYNC] Set " + name + "'s nickname to " + nick + ".");
 							} else {
