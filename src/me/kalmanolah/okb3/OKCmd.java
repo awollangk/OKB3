@@ -174,13 +174,23 @@ public class OKCmd implements CommandExecutor {
 							} catch (SQLException e) {
 								e.printStackTrace();
 							}
-							if (user == null) {
-								sendMessage(sender, ChatColor.RED + "Error: " + ChatColor.GRAY + "This user's login details are not saved yet.");
-							} else {
-								OKFunctions.updateSecure(getPlayer(sender), plugin.getServer().getPlayer(name), name, user, pass, true);
+							Player target = plugin.getServer().getPlayer(name);
+							if(target != null){
+								if(target.isOnline()){
+										if (user == null) {
+											sendMessage(sender, ChatColor.RED + "Error: " + ChatColor.GRAY + "This user's login details aren't saved yet.");
+										} else {
+											OKFunctions.updateSecure(getPlayer(sender), target, name, user, pass, true);
+										}
+								}
 							}
 						} else {
-							OKFunctions.updateNormal(getPlayer(sender), plugin.getServer().getPlayer(name), name, true);
+							Player target = plugin.getServer().getPlayer(name);
+							if(target != null){
+								if(target.isOnline()){
+									OKFunctions.updateNormal(getPlayer(sender), target, name, true);
+								}
+							}
 						}
 					} else {
 						sendMessage(sender, colorizeText("You cannot use this command.", ChatColor.LIGHT_PURPLE));
@@ -622,14 +632,19 @@ public class OKCmd implements CommandExecutor {
 											} catch (IllegalAccessException e) {
 												e.printStackTrace();
 											}
-											if ((Integer) OKFunctions.getConfig("mode") == 1) {
-												if (user == null) {
-													sendMessage(sender, ChatColor.RED + "Error: " + ChatColor.GRAY + "This user's login details aren't saved yet.");
-												} else {
-													OKFunctions.updateSecure(getPlayer(sender), plugin.getServer().getPlayer(name), name, user, pass, true);
+											Player target = plugin.getServer().getPlayer(name);
+											if(target != null){
+												if(target.isOnline()){
+													if ((Integer) OKFunctions.getConfig("mode") == 1) {
+														if (user == null) {
+															sendMessage(sender, ChatColor.RED + "Error: " + ChatColor.GRAY + "This user's login details aren't saved yet.");
+														} else {
+															OKFunctions.updateSecure(getPlayer(sender), target, name, user, pass, true);
+														}
+													} else {
+														OKFunctions.updateNormal(getPlayer(sender), target, name, true);
+													}
 												}
-											} else {
-												OKFunctions.updateNormal(getPlayer(sender), plugin.getServer().getPlayer(name), name, true);
 											}
 											@SuppressWarnings("unchecked")
 											HashMap<String, String> rankidentifiers = (HashMap<String, String>) OKFunctions.getConfig("ranks.identifierstwo");
@@ -747,14 +762,19 @@ public class OKCmd implements CommandExecutor {
 											} catch (IllegalAccessException e) {
 												e.printStackTrace();
 											}
-											if ((Integer) OKFunctions.getConfig("mode") == 1) {
-												if (user == null) {
-													sendMessage(sender, ChatColor.RED + "Error: " + ChatColor.GRAY + "This user's login details aren't saved yet.");
-												} else {
-													OKFunctions.updateSecure(getPlayer(sender), plugin.getServer().getPlayer(name), name, user, pass, true);
+											Player target = plugin.getServer().getPlayer(name);
+											if(target != null){
+												if(target.isOnline()){
+													if ((Integer) OKFunctions.getConfig("mode") == 1) {
+														if (user == null) {
+															sendMessage(sender, ChatColor.RED + "Error: " + ChatColor.GRAY + "This user's login details aren't saved yet.");
+														} else {
+															OKFunctions.updateSecure(getPlayer(sender), target, name, user, pass, true);
+														}
+													} else {
+														OKFunctions.updateNormal(getPlayer(sender), target, name, true);
+													}
 												}
-											} else {
-												OKFunctions.updateNormal(getPlayer(sender), plugin.getServer().getPlayer(name), name, true);
 											}
 											@SuppressWarnings("unchecked")
 											HashMap<String, String> rankidentifiers = (HashMap<String, String>) OKFunctions.getConfig("ranks.identifierstwo");
@@ -851,14 +871,19 @@ public class OKCmd implements CommandExecutor {
 							} catch (IllegalAccessException e) {
 								e.printStackTrace();
 							}
-							if ((Integer) OKFunctions.getConfig("mode") == 1) {
-								if (user == null) {
-									sendMessage(sender, ChatColor.RED + "Error: " + ChatColor.GRAY + "This user's login details aren't saved yet.");
-								} else {
-									OKFunctions.updateSecure(getPlayer(sender), plugin.getServer().getPlayer(name), name, user, pass, true);
+							Player target = plugin.getServer().getPlayer(name);
+							if(target != null){
+								if(target.isOnline()){
+									if ((Integer) OKFunctions.getConfig("mode") == 1) {
+										if (user == null) {
+											sendMessage(sender, ChatColor.RED + "Error: " + ChatColor.GRAY + "This user's login details aren't saved yet.");
+										} else {
+											OKFunctions.updateSecure(getPlayer(sender), target, name, user, pass, true);
+										}
+									} else {
+										OKFunctions.updateNormal(getPlayer(sender), target, name, true);
+									}
 								}
-							} else {
-								OKFunctions.updateNormal(getPlayer(sender), plugin.getServer().getPlayer(name), name, true);
 							}
 							OKLogger.info("[RANK-CHANGING] " + getName(sender) + " changed " + name + "'s rank to " + id.toLowerCase() + ".");
 							sendMessage(sender, ChatColor.GOLD + "Notice: " + ChatColor.GRAY + "'" + ChatColor.WHITE + name + ChatColor.GRAY + "' had their rank changed to '" + ChatColor.WHITE + id + ChatColor.GRAY + "'.");
