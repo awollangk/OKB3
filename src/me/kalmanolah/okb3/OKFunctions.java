@@ -66,7 +66,7 @@ public class OKFunctions {
 			if (!(Boolean) getConfig("modes.multitable")) {
 				query1 = "SELECT " + nickfield + " FROM " + table1 + " WHERE " + field1 + " = '" + name + "'";
 			} else {
-				String table2 = (String) getConfig("modes.table3");
+				String table2 = (String) getConfig("modes.table2");
 				query1 = "SELECT " + nickfield + " FROM " + table1 + "," + table2 + " WHERE " + table2 + "." + field1 + " = '" + name + "' AND " + table2 + "." + (String) getConfig("modes.field4") + " = " + table1 + "."
 						+ (String) getConfig("modes.field3");
 			}
