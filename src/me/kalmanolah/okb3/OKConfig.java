@@ -63,7 +63,7 @@ public class OKConfig {
 	private static List<String> readStringList(String root) {
 		YamlConfiguration config = load();
 		List<String> list = new ArrayList<String>();
-		for(String key:config.getConfigurationSection(root).getKeys(false)){
+		for (String key : config.getConfigurationSection(root).getKeys(false)) {
 			list.add(key);
 		}
 		return list;
