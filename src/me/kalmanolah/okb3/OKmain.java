@@ -244,19 +244,12 @@ public class OKmain extends JavaPlugin {
 		if (permissionHandler != null) {
 			return permissionHandler.has(player, string);
 		} else if (permissionManager != null) {
-			if (!permissionManager.has(player, string)) {
-				return false;
-			}
+			return permissionManager.has(player, string);
 		} else if (groupManager != null) {
-			if (!groupManager.getWorldPermissions(player).has(player, string)) {
-				return false;
-			}
+			return groupManager.getWorldPermissions(player).has(player, string);
 		} else {
-			if (!player.hasPermission(string)) {
-				return false;
-			}
+			return player.hasPermission(string);
 		}
-		return true;
 	}
 
 	public static void kickPlayer(Player plr, String string) {
