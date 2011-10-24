@@ -543,7 +543,7 @@ public class OKFunctions {
 				} else {
 					plr.sendMessage(ChatColor.GOLD + "You've been given " + ChatColor.WHITE + reward + " Coins" + ChatColor.GOLD + " for " + ChatColor.WHITE + result + ChatColor.GOLD + " forum posts.");
 				}
-				OKLogger.info("[POSTS] Gave " + plr.getName() + reward + " Coins for " + result + " post(s).");
+				OKLogger.info("[POSTS] Gave " + plr.getName() + " " + reward + " Coins for " + result + " post(s).");
 			}
 		}
 		UpdateSQLitePosts(plr, liveposts);
