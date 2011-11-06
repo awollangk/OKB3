@@ -2,7 +2,6 @@ package me.kalmanolah.okb3;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.logging.Logger;
@@ -219,21 +218,7 @@ public class OKmain extends JavaPlugin {
 				}
 			} else if (bpManager != null) {
 				PermissionSet worldperms = bpManager.getPermissionSet(world);
-				List<String> groups = worldperms.getGroups(player);
-				Iterator<String> plrgrp = groups.iterator();
-				if (!groups.isEmpty()) {
-					if (!(groups.get(0).equals(groupname) && (groups.size() == 1))) {
-						worldperms.addGroup(player, groupname);
-						while (plrgrp.hasNext()) {
-							String nextgroup = plrgrp.next();
-							if (!nextgroup.equals(groupname)) {
-								worldperms.removeGroup(player, nextgroup);
-							}
-						}
-					}
-				} else {
-					worldperms.addGroup(player, groupname);
-				}
+				worldperms.setGroup(player, groupname);
 			} else if (srpbHandler != null) {
 				srpbHandler.setRank(getServer().getPlayer(player), groupname);
 			}
