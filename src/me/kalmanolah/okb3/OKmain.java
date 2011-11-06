@@ -128,7 +128,7 @@ public class OKmain extends JavaPlugin {
 				new cubelist(this);
 			}
 			pm.registerEvent(Event.Type.PLAYER_PORTAL, playerListener, Priority.Monitor, this);
-			pm.registerEvent(Event.Type.PLAYER_JOIN, playerListener, Priority.Low, this);
+			pm.registerEvent(Event.Type.PLAYER_JOIN, playerListener, Priority.Highest, this);
 			pm.registerEvent(Event.Type.PLAYER_QUIT, playerListener, Priority.Low, this);
 			pm.registerEvent(Event.Type.PLAYER_TELEPORT, playerListener, Priority.Monitor, this);
 			pm.registerEvent(Event.Type.PLAYER_KICK, playerListener, Priority.Low, this);
