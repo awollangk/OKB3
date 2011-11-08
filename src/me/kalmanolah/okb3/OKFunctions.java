@@ -13,6 +13,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.bukkit.ChatColor;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 public class OKFunctions {
@@ -74,7 +75,7 @@ public class OKFunctions {
 			if (!(Boolean) getConfig("modes.multitable")) {
 				query1 = "SELECT " + nickfield + " FROM " + table1 + " WHERE " + field1 + " = '" + name + "'";
 			} else {
-				String table2 = (String) getConfig("modes.table3");
+				String table2 = (String) getConfig("modes.table2");
 				query1 = "SELECT " + nickfield + " FROM " + table1 + "," + table2 + " WHERE " + table2 + "." + field1 + " = '" + name + "' AND " + table2 + "." + (String) getConfig("modes.useridfield") + " = " + table1 + "."
 						+ (String) getConfig("modes.rankfield");
 			}
@@ -87,7 +88,7 @@ public class OKFunctions {
 					do {
 						String nick = rs.getString(nickfield);
 						if (nick != null) {
-							if (!nick.equals("null") || !nick.equals("")) {
+							if (!nick.equals("null") && !nick.equals("")) {
 								player.setDisplayName(nick);
 								OKLogger.info("[NICK-SYNC] Set " + name + "'s nickname to " + nick + ".");
 							} else {
@@ -228,20 +229,19 @@ public class OKFunctions {
 	 * forum account as long as the user name and password provided in-game
 	 * match in the forum.
 	 *
-	 * @param sender  Player  A Player object representing the player sending the command in game.
-	 * @param player  Player  A Player object representing the in game player being referenced.
-	 * @param plrname String  The in game name of the player being referenced.
-	 * @param user    String  The forum user name of the player.
-	 * @param pass    String  The forum password of the player.
-	 * @param force   Boolean Whether a player is forcing another player's settings.
+	 * @param sender  CommandSender A Player object representing the player sending the command in game.
+	 * @param player  Player        A Player object representing the in game player being referenced.
+	 * @param plrname String        The in game name of the player being referenced.
+	 * @param user    String        The forum user name of the player.
+	 * @param pass    String        The forum password of the player.
+	 * @param force   Boolean       Whether a player is forcing another player's settings.
 	 */
-	public static void updateSecure(Player sender, Player player, String plrname, String user, String pass, Boolean force) {
-		String  rank      = getRankSecurePass(user, pass);
+	public static void updateSecure(CommandSender sender, Player player, String plrname, String user, String pass, Boolean force) {
+		String rank = getRankSecurePass(user, pass);
 		if (rank != null) {
 			plugin.changeGroup(plrname, rank, "nope", true);
 			try {
 				Boolean forumSync = (Boolean) getConfig("extras.forumsync");
-				String  sql       = "";
 
 				OKDB.deleteQuery("DELETE FROM players WHERE player = '" + plrname + "'");
 				OKDB.insertQuery("INSERT INTO players (player,user,encpass) VALUES ('" + plrname + "','" + user + "','" + pass + "')");
@@ -252,6 +252,8 @@ public class OKFunctions {
 					String  useridfield    = (String)  OKConfig.config.get("modes.useridfield");
 					String  useridfieldsec = (String)  OKConfig.config.get("modes.useridfieldsec");
 					String  usernamefield  = (String)  OKConfig.config.get("modes.usernamefield");
+					String  sql            = "";
+
 					if (multitable)
 						sql = "UPDATE " + usertable 
 						    + " u INNER JOIN " + secondtable
@@ -260,6 +262,7 @@ public class OKFunctions {
 					else
 						sql = "UPDATE " + usertable
 						    + " u SET u." + usernamefield + "='" + plrname + "'";
+
 					OKDB.updateQuery(sql);
 				}
 			} catch (MalformedURLException e) {
@@ -272,17 +275,17 @@ public class OKFunctions {
 				e.printStackTrace();
 			}
 			if (!force) {
-				sender.sendMessage(ChatColor.GOLD + "Notice: " + ChatColor.GRAY + "Synchronization successful.");
+				sendMessage(sender, ChatColor.GOLD + "Notice: " + ChatColor.GRAY + "Synchronization successful.");
 				OKLogger.info("[SYNC] " + plrname + "'s ranks successfully updated.");
 			} else {
-				sender.sendMessage(ChatColor.GOLD + "Notice: " + ChatColor.GRAY + "Synchronization successful for '" + ChatColor.WHITE + plrname + ChatColor.GRAY + "'.");
-				OKLogger.info("[SYNC] " + plrname + "'s ranks successfully updated by " + sender.getName() + ".");
+				sendMessage(sender, ChatColor.GOLD + "Notice: " + ChatColor.GRAY + "Synchronization successful for '" + ChatColor.WHITE + plrname + ChatColor.GRAY + "'.");
+				OKLogger.info("[SYNC] " + plrname + "'s ranks successfully updated by " + getName(sender) + ".");
 			}
 		} else {
 			if (!force) {
-				sender.sendMessage(ChatColor.RED + "Error: " + ChatColor.GRAY + "Incorrect username or password.");
+				sendMessage(sender, ChatColor.RED + "Error: " + ChatColor.GRAY + "Incorrect username or password.");
 			} else {
-				sender.sendMessage(ChatColor.RED + "Error: " + ChatColor.GRAY + "Could not synchronize '" + ChatColor.WHITE + plrname + ChatColor.GRAY + "'s ranks.");
+				sendMessage(sender, ChatColor.RED + "Error: " + ChatColor.GRAY + "Could not synchronize '" + ChatColor.WHITE + plrname + ChatColor.GRAY + "'s ranks.");
 			}
 		}
 		if ((Boolean) getConfig("gen.nicks")) {
@@ -299,22 +302,22 @@ public class OKFunctions {
 	 * @param plrname String  The in game name of the player being referenced.
 	 * @param force   Boolean Whether a player is forcing another player's settings.
 	 */
-	public static void updateNormal(Player sender, Player player, String plrname, Boolean force) {
+	public static void updateNormal(CommandSender sender, Player player, String plrname, Boolean force) {
 		String rank = getRankNormal(plrname);
 		if (rank != null) {
 			plugin.changeGroup(plrname, rank, "nope", true);
 			if (!force) {
-				sender.sendMessage(ChatColor.GOLD + "Notice: " + ChatColor.GRAY + "Synchronization successful.");
+				sendMessage(sender, ChatColor.GOLD + "Notice: " + ChatColor.GRAY + "Synchronization successful.");
 				OKLogger.info("[SYNC] " + plrname + "'s ranks successfully updated.");
 			} else {
-				sender.sendMessage(ChatColor.GOLD + "Notice: " + ChatColor.GRAY + "Synchronization successful for '" + ChatColor.WHITE + plrname + ChatColor.GRAY + "'.");
-				OKLogger.info("[SYNC] " + plrname + "'s ranks successfully updated by " + sender.getName() + ".");
+				sendMessage(sender, ChatColor.GOLD + "Notice: " + ChatColor.GRAY + "Synchronization successful for '" + ChatColor.WHITE + plrname + ChatColor.GRAY + "'.");
+				OKLogger.info("[SYNC] " + plrname + "'s ranks successfully updated by " + getName(sender) + ".");
 			}
 		} else {
 			if (!force) {
-				sender.sendMessage(ChatColor.RED + "Error: " + ChatColor.GRAY + "Your ranks could not be synchronized.");
+				sendMessage(sender, ChatColor.RED + "Error: " + ChatColor.GRAY + "Your ranks could not be synchronized.");
 			} else {
-				sender.sendMessage(ChatColor.RED + "Error: " + ChatColor.GRAY + "Could not synchronize '" + ChatColor.WHITE + plrname + ChatColor.GRAY + "'s ranks.");
+				sendMessage(sender, ChatColor.RED + "Error: " + ChatColor.GRAY + "Could not synchronize '" + ChatColor.WHITE + plrname + ChatColor.GRAY + "'s ranks.");
 			}
 		}
 		if ((Boolean) getConfig("gen.nicks")) {
@@ -632,9 +635,37 @@ public class OKFunctions {
 				} else {
 					plr.sendMessage(ChatColor.GOLD + "You've been given " + ChatColor.WHITE + reward + " Coins" + ChatColor.GOLD + " for " + ChatColor.WHITE + result + ChatColor.GOLD + " forum posts.");
 				}
-				OKLogger.info("[POSTS] Gave " + plr.getName() + reward + " Coins for " + result + " post(s).");
+				OKLogger.info("[POSTS] Gave " + plr.getName() + " " + reward + " Coins for " + result + " post(s).");
 			}
 		}
 		UpdateSQLitePosts(plr, liveposts);
+	}
+
+	public static boolean sendMessage(CommandSender sender, String message) {
+		boolean sent = false;
+		if (isPlayer(sender)) {
+			Player player = (Player) sender;
+			player.sendMessage(message);
+			sent = true;
+		} else {
+			OKLogger.info(message);
+			sent = true;
+		}
+		return sent;
+	}
+
+	public static boolean isPlayer(CommandSender sender) {
+		return sender instanceof Player;
+	}
+
+	public static String getName(CommandSender sender) {
+		String name = "";
+		if (isPlayer(sender)) {
+			Player player = (Player) sender;
+			name = player.getName();
+		} else {
+			name = "CONSOLE";
+		}
+		return name;
 	}
 }

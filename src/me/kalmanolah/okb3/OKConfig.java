@@ -1,12 +1,13 @@
 package me.kalmanolah.okb3;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
-import org.bukkit.util.config.Configuration;
+import org.bukkit.configuration.file.YamlConfiguration;
 
 public class OKConfig {
 	static HashMap<String, Object> config = new HashMap<String, Object>();
@@ -35,20 +36,23 @@ public class OKConfig {
 	}
 
 	private static void write(String root, Object x) {
-		Configuration config = load();
-		config.setProperty(root, x);
-		config.save();
+		YamlConfiguration config = load();
+		config.set(root, x);
+		try {
+			config.save(file);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	public static String readString(String root) {
-		Configuration config = load();
+		YamlConfiguration config = load();
 		return config.getString(root);
 	}
 
-	private static Configuration load() {
+	private static YamlConfiguration load() {
 		try {
-			Configuration config = new Configuration(file);
-			config.load();
+			YamlConfiguration config = YamlConfiguration.loadConfiguration(file);
 			return config;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -57,8 +61,12 @@ public class OKConfig {
 	}
 
 	private static List<String> readStringList(String root) {
-		Configuration config = load();
-		return config.getKeys(root);
+		YamlConfiguration config = load();
+		List<String> list = new ArrayList<String>();
+		for (String key : config.getConfigurationSection(root).getKeys(false)) {
+			list.add(key);
+		}
+		return list;
 	}
 
 	private static void addDefaults() {

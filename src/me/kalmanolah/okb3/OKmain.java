@@ -2,7 +2,6 @@ package me.kalmanolah.okb3;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.logging.Logger;
@@ -132,7 +131,7 @@ public class OKmain extends JavaPlugin {
 				new cubelist(this);
 			}
 			pm.registerEvent(Event.Type.PLAYER_PORTAL, playerListener, Priority.Monitor, this);
-			pm.registerEvent(Event.Type.PLAYER_JOIN, playerListener, Priority.Low, this);
+			pm.registerEvent(Event.Type.PLAYER_JOIN, playerListener, Priority.Highest, this);
 			pm.registerEvent(Event.Type.PLAYER_QUIT, playerListener, Priority.Low, this);
 			pm.registerEvent(Event.Type.PLAYER_TELEPORT, playerListener, Priority.Monitor, this);
 			pm.registerEvent(Event.Type.PLAYER_KICK, playerListener, Priority.Low, this);
@@ -223,21 +222,7 @@ public class OKmain extends JavaPlugin {
 				}
 			} else if (bpManager != null) {
 				PermissionSet worldperms = bpManager.getPermissionSet(world);
-				List<String> groups = worldperms.getGroups(player);
-				Iterator<String> plrgrp = groups.iterator();
-				if (!groups.isEmpty()) {
-					if (!(groups.get(0).equals(groupname) && (groups.size() == 1))) {
-						worldperms.addGroup(player, groupname);
-						while (plrgrp.hasNext()) {
-							String nextgroup = plrgrp.next();
-							if (!nextgroup.equals(groupname)) {
-								worldperms.removeGroup(player, nextgroup);
-							}
-						}
-					}
-				} else {
-					worldperms.addGroup(player, groupname);
-				}
+				worldperms.setGroup(player, groupname);
 			} else if (srpbHandler != null) {
 				srpbHandler.setRank(getServer().getPlayer(player), groupname);
 			}
@@ -246,28 +231,14 @@ public class OKmain extends JavaPlugin {
 
 	public static boolean CheckPermission(Player player, String string) {
 		if (permissionHandler != null) {
-			User usr = permissionHandler.getUserObject(player.getWorld().getName(), player.getName());
-			if (usr != null) {
-				if (!usr.hasPermission(string)) {
-					return false;
-				}
-			} else {
-				return false;
-			}
+			return permissionHandler.has(player, string);
 		} else if (permissionManager != null) {
-			if (!permissionManager.has(player, string)) {
-				return false;
-			}
+			return permissionManager.has(player, string);
 		} else if (groupManager != null) {
-			if (!groupManager.getWorldPermissions(player).has(player, string)) {
-				return false;
-			}
+			return groupManager.getWorldPermissions(player).has(player, string);
 		} else {
-			if (!player.hasPermission(string)) {
-				return false;
-			}
+			return player.hasPermission(string);
 		}
-		return true;
 	}
 
 	public static void kickPlayer(Player plr, String string) {
