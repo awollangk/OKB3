@@ -38,18 +38,18 @@ public class OKDB {
 	 * @throws OKException If an invalid database type is specified in the configuration file
 	 */
 	public static void initialize(OKmain instance) throws OKException {
-		String dbTypeName = (String) OKFunctions.getConfig("general.db-type");
+		String dbTypeName = (String) OKFunctions.getConfig("general.dbtype");
 		DBTYPE dbType = null;
 		try {
-			dbType = DBTYPE.valueOf(dbTypeName.toUpperCase());
+			dbType = DBTYPE.valueOf(dbTypeName);
 		}
 		catch (IllegalArgumentException e) {
 			throw new OKException("Unknown OKDB general.db-type of " + dbTypeName + " (expected SQLITE or MYSQL.)", e);
 		}
 		switch (dbType) {
 		case SQLITE:
-			String dbPath = (String) OKFunctions.getConfig("general.sqlite.path");
-			String dbFile = (String) OKFunctions.getConfig("general.sqlite.filename");
+			String dbPath = (String) OKFunctions.getConfig("gen.sqlite.path");
+			String dbFile = (String) OKFunctions.getConfig("gen.sqlite.filename");
 			File dbDir = new File(dbPath);
 			if (!dbDir.exists()) {
 				dbDir.mkdir();
@@ -57,10 +57,10 @@ public class OKDB {
 			OKDB.dbsqlite = new sqlCore(OKLogger.getLog(), OKLogger.getPrefix(), dbFile, dbDir.getPath());
 			break;
 		case MYSQL:
-			String dbHost = (String) OKFunctions.getConfig("general.mysql.host");
-			String dbUser = (String) OKFunctions.getConfig("general.mysql.user");
-			String dbPass = (String) OKFunctions.getConfig("general.mysql.password");
-			String dbDb   = (String) OKFunctions.getConfig("general.mysql.database-name");
+			String dbHost = (String) OKFunctions.getConfig("gen.mysql.host");
+			String dbUser = (String) OKFunctions.getConfig("gen.mysql.user");
+			String dbPass = (String) OKFunctions.getConfig("gen.mysql.password");
+			String dbDb   = (String) OKFunctions.getConfig("gen.mysql.dbname");
 			OKDB.dbmysql = new mysqlCore(OKLogger.getLog(), OKLogger.getPrefix(), dbHost, dbDb, dbUser, dbPass);
 			break;
 		}

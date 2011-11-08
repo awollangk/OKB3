@@ -95,6 +95,10 @@ public class OKConfig {
 		write("modes.secure.type2.rank-id-field", "rank_group_field");
 		write("modes.secure.type2.location-of-passgen-php", "http://yoursite.com/passgen.php");
 		write("modes.secure.type2.password-set-in-config-inc-php", "12345pass");
+		write("modes.secure.type2.multitable.enable-multiple-tables", "false");
+		write("modes.secure.type2.multitable.second-table", "second_table");
+		write("modes.secure.type2.multitable.user-id-field-in-user-table", "user_id_field_user_table");
+		write("modes.secure.type2.multitable.user-id-field-in-second-table", "user_id_field_second_table");
 		write("modes.secure.type3.user-table", "user_table");
 		write("modes.secure.type3.rank-id-field", "rank_group_field");
 		write("modes.secure.type3.username-field", "username_field");
@@ -121,6 +125,7 @@ public class OKConfig {
 		write("extras.whitelist.groups.1", "true");
 		write("extras.whitelist.groups.2", "false");
 		write("extras.nickname-syncing.nickname-field-in-usertable", "nickname_field_user_table");
+		write("extras.forum-syncing", "false");
 		write("extras.synced-banning.banned-user-forum-rank-id", "0");
 		write("extras.synced-banning.unbanned-user-forum-rank-id", "10");
 		write("extras.synced-banning.ban-message", "This is the message a user will see if they are banned.");
@@ -170,45 +175,52 @@ public class OKConfig {
 				config.put("enctype", 4);
 			}
 			if ((Integer) config.get("enctype") == 1) {
-				config.put("modes.table1", readString("modes.secure.type1.user-table"));
-				config.put("modes.field1", readString("modes.secure.type1.username-field"));
-				config.put("modes.field2", readString("modes.secure.type1.password-field"));
-				config.put("modes.field3", readString("modes.secure.type1.rank-id-field"));
+				config.put("modes.usertable", readString("modes.secure.type1.user-table"));
+				config.put("modes.usernamefield", readString("modes.secure.type1.username-field"));
+				config.put("modes.passwordfield", readString("modes.secure.type1.password-field"));
+				config.put("modes.rankfield", readString("modes.secure.type1.rank-id-field"));
 			} else if ((Integer) config.get("enctype") == 2) {
-				config.put("modes.table1", readString("modes.secure.type2.user-table"));
-				config.put("modes.field1", readString("modes.secure.type2.username-field"));
-				config.put("modes.field2", readString("modes.secure.type2.password-field"));
-				config.put("modes.field3", readString("modes.secure.type2.rank-id-field"));
+				config.put("modes.usertable", readString("modes.secure.type2.user-table"));
+				config.put("modes.usernamefield", readString("modes.secure.type2.username-field"));
+				config.put("modes.passwordfield", readString("modes.secure.type2.password-field"));
+				config.put("modes.rankfield", readString("modes.secure.type2.rank-id-field"));
 				config.put("modes.phploc", readString("modes.secure.type2.location-of-passgen-php"));
 				config.put("modes.phppass", readString("modes.secure.type2.password-set-in-config-inc-php"));
+				config.put("modes.multitable", Boolean.parseBoolean(readString("modes.secure.type2.multitable.enable-multiple-tables")));
+				if ((Boolean) config.get("modes.multitable")) {
+					config.put("modes.secondtable", readString("modes.secure.type2.multitable.second-table"));
+					config.put("modes.useridfield", readString("modes.secure.type2.multitable.user-id-field-in-user-table"));
+					config.put("modes.useridfieldsec", readString("modes.secure.type2.multitable.user-id-field-in-second-table"));
+				}
 			} else if ((Integer) config.get("enctype") == 3) {
-				config.put("modes.table1", readString("modes.secure.type3.user-table"));
-				config.put("modes.table2", readString("modes.secure.type3.second-table"));
-				config.put("modes.field1", readString("modes.secure.type3.username-field"));
-				config.put("modes.field2", readString("modes.secure.type3.password-field"));
-				config.put("modes.field3", readString("modes.secure.type3.rank-id-field"));
-				config.put("modes.field4", readString("modes.secure.type3.user-id-field-in-user-table"));
-				config.put("modes.field5", readString("modes.secure.type3.user-id-field-in-second-table"));
+				config.put("modes.usertable", readString("modes.secure.type3.user-table"));
+				config.put("modes.secondtable", readString("modes.secure.type3.second-table"));
+				config.put("modes.usernamefield", readString("modes.secure.type3.username-field"));
+				config.put("modes.passwordfield", readString("modes.secure.type3.password-field"));
+				config.put("modes.rankfield", readString("modes.secure.type3.rank-id-field"));
+				config.put("modes.useridfield", readString("modes.secure.type3.user-id-field-in-user-table"));
+				config.put("modes.useridfieldsec", readString("modes.secure.type3.user-id-field-in-second-table"));
 			} else if ((Integer) config.get("enctype") == 4) {
-				config.put("modes.table1", readString("modes.secure.type4.user-table"));
-				config.put("modes.field1", readString("modes.secure.type4.username-field"));
-				config.put("modes.field2", readString("modes.secure.type4.password-field"));
-				config.put("modes.field3", readString("modes.secure.type4.rank-id-field"));
+				config.put("modes.usertable", readString("modes.secure.type4.user-table"));
+				config.put("modes.usernamefield", readString("modes.secure.type4.username-field"));
+				config.put("modes.passwordfield", readString("modes.secure.type4.password-field"));
+				config.put("modes.rankfield", readString("modes.secure.type4.rank-id-field"));
 				config.put("modes.phploc", readString("modes.secure.type4.location-of-passgen-php"));
 				config.put("modes.phppass", readString("modes.secure.type4.password-set-in-config-inc-php"));
 			}
 			config.put("modes.multitable", false);
 		} else {
-			config.put("modes.table1", readString("modes.normal.user-table"));
-			config.put("modes.field1", readString("modes.normal.minecraft-login-name-field"));
-			config.put("modes.field2", readString("modes.normal.rank-id-field"));
+			config.put("modes.usertable", readString("modes.normal.user-table"));
+			config.put("modes.usernamefield", readString("modes.normal.minecraft-login-name-field"));
+			config.put("modes.passwordfield", readString("modes.normal.rank-id-field"));
 			config.put("modes.multitable", Boolean.parseBoolean(readString("modes.normal.multitable.enable-multiple-tables")));
 			if ((Boolean) config.get("modes.multitable")) {
-				config.put("modes.table2", readString("modes.normal.multitable.second-table"));
-				config.put("modes.field3", readString("modes.normal.multitable.user-id-field-in-user-table"));
-				config.put("modes.field4", readString("modes.normal.multitable.user-id-field-in-second-table"));
+				config.put("modes.secondtable", readString("modes.normal.multitable.second-table"));
+				config.put("modes.rankfield", readString("modes.normal.multitable.user-id-field-in-user-table"));
+				config.put("modes.useridfield", readString("modes.normal.multitable.user-id-field-in-second-table"));
 			}
 		}
+		config.put("extras.forumsync", Boolean.parseBoolean(readString("extras.forum-syncing")));
 		HashMap<String, String> groupmap = new HashMap<String, String>();
 		List<String> groups = readStringList("group-mapping.default");
 		Iterator<String> group = groups.iterator();

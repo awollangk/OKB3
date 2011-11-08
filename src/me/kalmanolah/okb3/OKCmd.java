@@ -293,26 +293,26 @@ public class OKCmd implements CommandExecutor {
 									if (user != null) {
 										Integer enctype = (Integer) OKFunctions.getConfig("enctype");
 										String banrank = (String) OKFunctions.getConfig("bans.banrank");
-										String table1 = (String) OKFunctions.getConfig("modes.table1");
-										String field1 = (String) OKFunctions.getConfig("modes.field1");
-										String field3 = (String) OKFunctions.getConfig("modes.field3");
+										String table1 = (String) OKFunctions.getConfig("modes.usertable");
+										String field1 = (String) OKFunctions.getConfig("modes.usernamefield");
+										String field3 = (String) OKFunctions.getConfig("modes.rankfield");
 										if ((enctype == 1) || (enctype == 2) || (enctype == 4)) {
 											OKDatabase.dbm.updateQuery("UPDATE " + table1 + " SET " + field3 + "='" + banrank + "' WHERE " + field1 + "='" + user + "'");
 										} else if (enctype == 3) {
-											String table2 = (String) OKFunctions.getConfig("modes.table2");
+											String table2 = (String) OKFunctions.getConfig("modes.secondtable");
 											OKDatabase.dbm.updateQuery("UPDATE " + table1 + "," + table2 + " SET " + field3 + "='" + banrank + "' WHERE " + table1 + "." + field1 + "='" + user + "' AND " + table1 + "."
-													+ (String) OKFunctions.getConfig("modes.field4") + "=" + table2 + "." + (String) OKFunctions.getConfig("modes.field5"));
+													+ (String) OKFunctions.getConfig("modes.useridfield") + "=" + table2 + "." + (String) OKFunctions.getConfig("modes.useridfieldsec"));
 										}
 									}
 								} else {
 									String banrank = (String) OKFunctions.getConfig("bans.banrank");
-									String table1 = (String) OKFunctions.getConfig("modes.table1");
-									String field1 = (String) OKFunctions.getConfig("modes.field1");
-									String field2 = (String) OKFunctions.getConfig("modes.field2");
+									String table1 = (String) OKFunctions.getConfig("modes.usertable");
+									String field1 = (String) OKFunctions.getConfig("modes.usernamefield");
+									String field2 = (String) OKFunctions.getConfig("modes.passwordfield");
 									if ((Boolean) OKFunctions.getConfig("modes.multitable")) {
-										String table2 = (String) OKFunctions.getConfig("modes.table2");
+										String table2 = (String) OKFunctions.getConfig("modes.secondtable");
 										OKDatabase.dbm.updateQuery("UPDATE " + table1 + "," + table2 + " SET " + field2 + "='" + banrank + "' WHERE " + table2 + "." + field1 + "='" + name + "' AND " + table1 + "."
-												+ (String) OKFunctions.getConfig("modes.field3") + "=" + table2 + "." + (String) OKFunctions.getConfig("modes.field4"));
+												+ (String) OKFunctions.getConfig("modes.rankfield") + "=" + table2 + "." + (String) OKFunctions.getConfig("modes.useridfield"));
 									} else {
 										OKDatabase.dbm.updateQuery("UPDATE " + table1 + " SET " + field2 + "='" + banrank + "' WHERE " + field1 + "='" + name + "'");
 									}
@@ -382,26 +382,26 @@ public class OKCmd implements CommandExecutor {
 								if (user != null) {
 									Integer enctype = (Integer) OKFunctions.getConfig("enctype");
 									String banrank = (String) OKFunctions.getConfig("bans.banrank");
-									String table1 = (String) OKFunctions.getConfig("modes.table1");
-									String field1 = (String) OKFunctions.getConfig("modes.field1");
-									String field3 = (String) OKFunctions.getConfig("modes.field3");
+									String table1 = (String) OKFunctions.getConfig("modes.usertable");
+									String field1 = (String) OKFunctions.getConfig("modes.usernamefield");
+									String field3 = (String) OKFunctions.getConfig("modes.rankfield");
 									if ((enctype == 1) || (enctype == 2) || (enctype == 4)) {
 										OKDatabase.dbm.updateQuery("UPDATE " + table1 + " SET " + field3 + "='" + banrank + "' WHERE " + field1 + "='" + user + "'");
 									} else if (enctype == 3) {
-										String table2 = (String) OKFunctions.getConfig("modes.table2");
+										String table2 = (String) OKFunctions.getConfig("modes.secondtable");
 										OKDatabase.dbm.updateQuery("UPDATE " + table1 + "," + table2 + " SET " + field3 + "='" + banrank + "' WHERE " + table1 + "." + field1 + "='" + user + "' AND " + table1 + "."
-												+ (String) OKFunctions.getConfig("modes.field4") + "=" + table2 + "." + (String) OKFunctions.getConfig("modes.field5"));
+												+ (String) OKFunctions.getConfig("modes.useridfield") + "=" + table2 + "." + (String) OKFunctions.getConfig("modes.useridfieldsec"));
 									}
 								}
 							} else {
 								String banrank = (String) OKFunctions.getConfig("bans.banrank");
-								String table1 = (String) OKFunctions.getConfig("modes.table1");
-								String field1 = (String) OKFunctions.getConfig("modes.field1");
-								String field2 = (String) OKFunctions.getConfig("modes.field2");
+								String table1 = (String) OKFunctions.getConfig("modes.usertable");
+								String field1 = (String) OKFunctions.getConfig("modes.usernamefield");
+								String field2 = (String) OKFunctions.getConfig("modes.passwordfield");
 								if ((Boolean) OKFunctions.getConfig("modes.multitable")) {
-									String table2 = (String) OKFunctions.getConfig("modes.table2");
+									String table2 = (String) OKFunctions.getConfig("modes.secondtable");
 									OKDatabase.dbm.updateQuery("UPDATE " + table1 + "," + table2 + " SET " + field2 + "='" + banrank + "' WHERE " + table2 + "." + field1 + "='" + name + "' AND " + table1 + "."
-											+ (String) OKFunctions.getConfig("modes.field3") + "=" + table2 + "." + (String) OKFunctions.getConfig("modes.field4"));
+											+ (String) OKFunctions.getConfig("modes.rankfield") + "=" + table2 + "." + (String) OKFunctions.getConfig("modes.useridfield"));
 								} else {
 									OKDatabase.dbm.updateQuery("UPDATE " + table1 + " SET " + field2 + "='" + banrank + "' WHERE " + field1 + "='" + name + "'");
 								}
@@ -474,26 +474,26 @@ public class OKCmd implements CommandExecutor {
 									if (user != null) {
 										Integer enctype = (Integer) OKFunctions.getConfig("enctype");
 										String unbanrank = (String) OKFunctions.getConfig("bans.unbanrank");
-										String table1 = (String) OKFunctions.getConfig("modes.table1");
-										String field1 = (String) OKFunctions.getConfig("modes.field1");
-										String field3 = (String) OKFunctions.getConfig("modes.field3");
+										String table1 = (String) OKFunctions.getConfig("modes.usertable");
+										String field1 = (String) OKFunctions.getConfig("modes.usernamefield");
+										String field3 = (String) OKFunctions.getConfig("modes.rankfield");
 										if ((enctype == 1) || (enctype == 2) || (enctype == 4)) {
 											OKDatabase.dbm.updateQuery("UPDATE " + table1 + " SET " + field3 + "='" + unbanrank + "' WHERE " + field1 + "='" + user + "'");
 										} else if (enctype == 3) {
-											String table2 = (String) OKFunctions.getConfig("modes.table2");
+											String table2 = (String) OKFunctions.getConfig("modes.secondtable");
 											OKDatabase.dbm.updateQuery("UPDATE " + table1 + "," + table2 + " SET " + field3 + "='" + unbanrank + "' WHERE " + table1 + "." + field1 + "='" + user + "' AND " + table1 + "."
-													+ (String) OKFunctions.getConfig("modes.field4") + "=" + table2 + "." + (String) OKFunctions.getConfig("modes.field5"));
+													+ (String) OKFunctions.getConfig("modes.useridfield") + "=" + table2 + "." + (String) OKFunctions.getConfig("modes.useridfieldsec"));
 										}
 									}
 								} else {
 									String unbanrank = (String) OKFunctions.getConfig("bans.unbanrank");
-									String table1 = (String) OKFunctions.getConfig("modes.table1");
-									String field1 = (String) OKFunctions.getConfig("modes.field1");
-									String field2 = (String) OKFunctions.getConfig("modes.field2");
+									String table1 = (String) OKFunctions.getConfig("modes.usertable");
+									String field1 = (String) OKFunctions.getConfig("modes.usernamefield");
+									String field2 = (String) OKFunctions.getConfig("modes.passwordfield");
 									if ((Boolean) OKFunctions.getConfig("modes.multitable")) {
-										String table2 = (String) OKFunctions.getConfig("modes.table2");
+										String table2 = (String) OKFunctions.getConfig("modes.secondtable");
 										OKDatabase.dbm.updateQuery("UPDATE " + table1 + "," + table2 + " SET " + field2 + "='" + unbanrank + "' WHERE " + table2 + "." + field1 + "='" + name + "' AND " + table1 + "."
-												+ (String) OKFunctions.getConfig("modes.field3") + "=" + table2 + "." + (String) OKFunctions.getConfig("modes.field4"));
+												+ (String) OKFunctions.getConfig("modes.rankfield") + "=" + table2 + "." + (String) OKFunctions.getConfig("modes.useridfield"));
 									} else {
 										OKDatabase.dbm.updateQuery("UPDATE " + table1 + " SET " + field2 + "='" + unbanrank + "' WHERE " + field1 + "='" + name + "'");
 									}
@@ -550,26 +550,26 @@ public class OKCmd implements CommandExecutor {
 								if (user != null) {
 									Integer enctype = (Integer) OKFunctions.getConfig("enctype");
 									String unbanrank = (String) OKFunctions.getConfig("bans.unbanrank");
-									String table1 = (String) OKFunctions.getConfig("modes.table1");
-									String field1 = (String) OKFunctions.getConfig("modes.field1");
-									String field3 = (String) OKFunctions.getConfig("modes.field3");
+									String table1 = (String) OKFunctions.getConfig("modes.usertable");
+									String field1 = (String) OKFunctions.getConfig("modes.usernamefield");
+									String field3 = (String) OKFunctions.getConfig("modes.rankfield");
 									if ((enctype == 1) || (enctype == 2) || (enctype == 4)) {
 										OKDatabase.dbm.updateQuery("UPDATE " + table1 + " SET " + field3 + "='" + unbanrank + "' WHERE " + field1 + "='" + user + "'");
 									} else if (enctype == 3) {
-										String table2 = (String) OKFunctions.getConfig("modes.table2");
+										String table2 = (String) OKFunctions.getConfig("modes.secondtable");
 										OKDatabase.dbm.updateQuery("UPDATE " + table1 + "," + table2 + " SET " + field3 + "='" + unbanrank + "' WHERE " + table1 + "." + field1 + "='" + user + "' AND " + table1 + "."
-												+ (String) OKFunctions.getConfig("modes.field4") + "=" + table2 + "." + (String) OKFunctions.getConfig("modes.field5"));
+												+ (String) OKFunctions.getConfig("modes.useridfield") + "=" + table2 + "." + (String) OKFunctions.getConfig("modes.useridfieldsec"));
 									}
 								}
 							} else {
 								String unbanrank = (String) OKFunctions.getConfig("bans.unbanrank");
-								String table1 = (String) OKFunctions.getConfig("modes.table1");
-								String field1 = (String) OKFunctions.getConfig("modes.field1");
-								String field2 = (String) OKFunctions.getConfig("modes.field2");
+								String table1 = (String) OKFunctions.getConfig("modes.usertable");
+								String field1 = (String) OKFunctions.getConfig("modes.usernamefield");
+								String field2 = (String) OKFunctions.getConfig("modes.passwordfield");
 								if ((Boolean) OKFunctions.getConfig("modes.multitable")) {
-									String table2 = (String) OKFunctions.getConfig("modes.table2");
+									String table2 = (String) OKFunctions.getConfig("modes.secondtable");
 									OKDatabase.dbm.updateQuery("UPDATE " + table1 + "," + table2 + " SET " + field2 + "='" + unbanrank + "' WHERE " + table2 + "." + field1 + "='" + name + "' AND " + table1 + "."
-											+ (String) OKFunctions.getConfig("modes.field3") + "=" + table2 + "." + (String) OKFunctions.getConfig("modes.field4"));
+											+ (String) OKFunctions.getConfig("modes.rankfield") + "=" + table2 + "." + (String) OKFunctions.getConfig("modes.useridfield"));
 								} else {
 									OKDatabase.dbm.updateQuery("UPDATE " + table1 + " SET " + field2 + "='" + unbanrank + "' WHERE " + field1 + "='" + name + "'");
 								}
@@ -656,25 +656,25 @@ public class OKCmd implements CommandExecutor {
 												if ((Integer) OKFunctions.getConfig("mode") == 1) {
 													if (user != null) {
 														Integer enctype = (Integer) OKFunctions.getConfig("enctype");
-														String table1 = (String) OKFunctions.getConfig("modes.table1");
-														String field1 = (String) OKFunctions.getConfig("modes.field1");
-														String field3 = (String) OKFunctions.getConfig("modes.field3");
+														String table1 = (String) OKFunctions.getConfig("modes.usertable");
+														String field1 = (String) OKFunctions.getConfig("modes.usernamefield");
+														String field3 = (String) OKFunctions.getConfig("modes.rankfield");
 														if ((enctype == 1) || (enctype == 2) || (enctype == 4)) {
 															OKDatabase.dbm.updateQuery("UPDATE " + table1 + " SET " + field3 + "='" + newrank + "' WHERE " + field1 + "='" + user + "'");
 														} else if (enctype == 3) {
-															String table2 = (String) OKFunctions.getConfig("modes.table2");
+															String table2 = (String) OKFunctions.getConfig("modes.secondtable");
 															OKDatabase.dbm.updateQuery("UPDATE " + table1 + "," + table2 + " SET " + field3 + "='" + newrank + "' WHERE " + table1 + "." + field1 + "='" + user + "' AND " + table1 + "."
-																	+ (String) OKFunctions.getConfig("modes.field4") + "=" + table2 + "." + (String) OKFunctions.getConfig("modes.field5"));
+																	+ (String) OKFunctions.getConfig("modes.useridfield") + "=" + table2 + "." + (String) OKFunctions.getConfig("modes.useridfieldsec"));
 														}
 													}
 												} else {
-													String table1 = (String) OKFunctions.getConfig("modes.table1");
-													String field1 = (String) OKFunctions.getConfig("modes.field1");
-													String field2 = (String) OKFunctions.getConfig("modes.field2");
+													String table1 = (String) OKFunctions.getConfig("modes.usertable");
+													String field1 = (String) OKFunctions.getConfig("modes.usernamefield");
+													String field2 = (String) OKFunctions.getConfig("modes.passwordfield");
 													if ((Boolean) OKFunctions.getConfig("modes.multitable")) {
-														String table2 = (String) OKFunctions.getConfig("modes.table2");
+														String table2 = (String) OKFunctions.getConfig("modes.secondtable");
 														OKDatabase.dbm.updateQuery("UPDATE " + table1 + "," + table2 + " SET " + field2 + "='" + newrank + "' WHERE " + table2 + "." + field1 + "='" + name + "' AND " + table1 + "."
-																+ (String) OKFunctions.getConfig("modes.field3") + "=" + table2 + "." + (String) OKFunctions.getConfig("modes.field4"));
+																+ (String) OKFunctions.getConfig("modes.rankfield") + "=" + table2 + "." + (String) OKFunctions.getConfig("modes.useridfield"));
 													} else {
 														OKDatabase.dbm.updateQuery("UPDATE " + table1 + " SET " + field2 + "='" + newrank + "' WHERE " + field1 + "='" + name + "'");
 													}
@@ -789,25 +789,25 @@ public class OKCmd implements CommandExecutor {
 												if ((Integer) OKFunctions.getConfig("mode") == 1) {
 													if (user != null) {
 														Integer enctype = (Integer) OKFunctions.getConfig("enctype");
-														String table1 = (String) OKFunctions.getConfig("modes.table1");
-														String field1 = (String) OKFunctions.getConfig("modes.field1");
-														String field3 = (String) OKFunctions.getConfig("modes.field3");
+														String table1 = (String) OKFunctions.getConfig("modes.usertable");
+														String field1 = (String) OKFunctions.getConfig("modes.usernamefield");
+														String field3 = (String) OKFunctions.getConfig("modes.rankfield");
 														if ((enctype == 1) || (enctype == 2) || (enctype == 4)) {
 															OKDatabase.dbm.updateQuery("UPDATE " + table1 + " SET " + field3 + "='" + newrank + "' WHERE " + field1 + "='" + user + "'");
 														} else if (enctype == 3) {
-															String table2 = (String) OKFunctions.getConfig("modes.table2");
+															String table2 = (String) OKFunctions.getConfig("modes.secondtable");
 															OKDatabase.dbm.updateQuery("UPDATE " + table1 + "," + table2 + " SET " + field3 + "='" + newrank + "' WHERE " + table1 + "." + field1 + "='" + user + "' AND " + table1 + "."
-																	+ (String) OKFunctions.getConfig("modes.field4") + "=" + table2 + "." + (String) OKFunctions.getConfig("modes.field5"));
+																	+ (String) OKFunctions.getConfig("modes.useridfield") + "=" + table2 + "." + (String) OKFunctions.getConfig("modes.useridfieldsec"));
 														}
 													}
 												} else {
-													String table1 = (String) OKFunctions.getConfig("modes.table1");
-													String field1 = (String) OKFunctions.getConfig("modes.field1");
-													String field2 = (String) OKFunctions.getConfig("modes.field2");
+													String table1 = (String) OKFunctions.getConfig("modes.usertable");
+													String field1 = (String) OKFunctions.getConfig("modes.usernamefield");
+													String field2 = (String) OKFunctions.getConfig("modes.passwordfield");
 													if ((Boolean) OKFunctions.getConfig("modes.multitable")) {
-														String table2 = (String) OKFunctions.getConfig("modes.table2");
+														String table2 = (String) OKFunctions.getConfig("modes.secondtable");
 														OKDatabase.dbm.updateQuery("UPDATE " + table1 + "," + table2 + " SET " + field2 + "='" + newrank + "' WHERE " + table2 + "." + field1 + "='" + name + "' AND " + table1 + "."
-																+ (String) OKFunctions.getConfig("modes.field3") + "=" + table2 + "." + (String) OKFunctions.getConfig("modes.field4"));
+																+ (String) OKFunctions.getConfig("modes.rankfield") + "=" + table2 + "." + (String) OKFunctions.getConfig("modes.useridfield"));
 													} else {
 														OKDatabase.dbm.updateQuery("UPDATE " + table1 + " SET " + field2 + "='" + newrank + "' WHERE " + field1 + "='" + name + "'");
 													}
@@ -900,25 +900,25 @@ public class OKCmd implements CommandExecutor {
 									if ((Integer) OKFunctions.getConfig("mode") == 1) {
 										if (user != null) {
 											Integer enctype = (Integer) OKFunctions.getConfig("enctype");
-											String table1 = (String) OKFunctions.getConfig("modes.table1");
-											String field1 = (String) OKFunctions.getConfig("modes.field1");
-											String field3 = (String) OKFunctions.getConfig("modes.field3");
+											String table1 = (String) OKFunctions.getConfig("modes.usertable");
+											String field1 = (String) OKFunctions.getConfig("modes.usernamefield");
+											String field3 = (String) OKFunctions.getConfig("modes.rankfield");
 											if ((enctype == 1) || (enctype == 2) || (enctype == 4)) {
 												OKDatabase.dbm.updateQuery("UPDATE " + table1 + " SET " + field3 + "='" + newrankid + "' WHERE " + field1 + "='" + user + "'");
 											} else if (enctype == 3) {
-												String table2 = (String) OKFunctions.getConfig("modes.table2");
+												String table2 = (String) OKFunctions.getConfig("modes.secondtable");
 												OKDatabase.dbm.updateQuery("UPDATE " + table1 + "," + table2 + " SET " + field3 + "='" + newrankid + "' WHERE " + table1 + "." + field1 + "='" + user + "' AND " + table1 + "."
-														+ (String) OKFunctions.getConfig("modes.field4") + "=" + table2 + "." + (String) OKFunctions.getConfig("modes.field5"));
+														+ (String) OKFunctions.getConfig("modes.useridfield") + "=" + table2 + "." + (String) OKFunctions.getConfig("modes.useridfieldsec"));
 											}
 										}
 									} else {
-										String table1 = (String) OKFunctions.getConfig("modes.table1");
-										String field1 = (String) OKFunctions.getConfig("modes.field1");
-										String field2 = (String) OKFunctions.getConfig("modes.field2");
+										String table1 = (String) OKFunctions.getConfig("modes.usertable");
+										String field1 = (String) OKFunctions.getConfig("modes.usernamefield");
+										String field2 = (String) OKFunctions.getConfig("modes.passwordfield");
 										if ((Boolean) OKFunctions.getConfig("modes.multitable")) {
-											String table2 = (String) OKFunctions.getConfig("modes.table2");
+											String table2 = (String) OKFunctions.getConfig("modes.secondtable");
 											OKDatabase.dbm.updateQuery("UPDATE " + table1 + "," + table2 + " SET " + field2 + "='" + newrankid + "' WHERE " + table2 + "." + field1 + "='" + name + "' AND " + table1 + "."
-													+ (String) OKFunctions.getConfig("modes.field3") + "=" + table2 + "." + (String) OKFunctions.getConfig("modes.field4"));
+													+ (String) OKFunctions.getConfig("modes.rankfield") + "=" + table2 + "." + (String) OKFunctions.getConfig("modes.useridfield"));
 										} else {
 											OKDatabase.dbm.updateQuery("UPDATE " + table1 + " SET " + field2 + "='" + newrankid + "' WHERE " + field1 + "='" + name + "'");
 										}

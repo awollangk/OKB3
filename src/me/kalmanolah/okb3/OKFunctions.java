@@ -43,8 +43,8 @@ public class OKFunctions {
 		String name = player.getName();
 		String query1 = null;
 		String nickfield = (String) getConfig("nicks.field");
-		String table1 = (String) getConfig("modes.table1");
-		String field1 = (String) getConfig("modes.field1");
+		String table1 = (String) getConfig("modes.usertable");
+		String field1 = (String) getConfig("modes.usernamefield");
 		if ((Integer) getConfig("mode") == 1) {
 			String user = null;
 			ResultSet test = null;
@@ -75,8 +75,8 @@ public class OKFunctions {
 				query1 = "SELECT " + nickfield + " FROM " + table1 + " WHERE " + field1 + " = '" + name + "'";
 			} else {
 				String table2 = (String) getConfig("modes.table3");
-				query1 = "SELECT " + nickfield + " FROM " + table1 + "," + table2 + " WHERE " + table2 + "." + field1 + " = '" + name + "' AND " + table2 + "." + (String) getConfig("modes.field4") + " = " + table1 + "."
-						+ (String) getConfig("modes.field3");
+				query1 = "SELECT " + nickfield + " FROM " + table1 + "," + table2 + " WHERE " + table2 + "." + field1 + " = '" + name + "' AND " + table2 + "." + (String) getConfig("modes.useridfield") + " = " + table1 + "."
+						+ (String) getConfig("modes.rankfield");
 			}
 		}
 		if (query1 != null) {
@@ -119,16 +119,16 @@ public class OKFunctions {
 	public static String getRankSecurePass(String user, String pass) {
 		String query1 = null;
 		Integer enctype = (Integer) getConfig("enctype");
-		String table1 = (String) getConfig("modes.table1");
-		String field1 = (String) getConfig("modes.field1");
-		String field2 = (String) getConfig("modes.field2");
-		String field3 = (String) getConfig("modes.field3");
+		String table1 = (String) getConfig("modes.usertable");
+		String field1 = (String) getConfig("modes.usernamefield");
+		String field2 = (String) getConfig("modes.passwordfield");
+		String field3 = (String) getConfig("modes.rankfield");
 		if ((enctype == 1) || (enctype == 2) || (enctype == 4)) {
 			query1 = "SELECT " + field3 + " FROM " + table1 + " WHERE " + field1 + " = '" + user + "' AND " + field2 + " = '" + pass + "'";
 		} else {
-			String table2 = (String) getConfig("modes.table2");
-			query1 = "SELECT " + field3 + "," + field2 + " FROM " + table1 + "," + table2 + " WHERE " + table1 + "." + field1 + " = '" + user + "'  AND " + table1 + "." + (String) getConfig("modes.field4") + "=" + table2 + "."
-					+ (String) getConfig("modes.field5");
+			String table2 = (String) getConfig("modes.secondtable");
+			query1 = "SELECT " + field3 + "," + field2 + " FROM " + table1 + "," + table2 + " WHERE " + table1 + "." + field1 + " = '" + user + "'  AND " + table1 + "." + (String) getConfig("modes.useridfield") + "=" + table2 + "."
+					+ (String) getConfig("modes.useridfieldsec");
 		}
 		String rank = null;
 		try {
@@ -159,9 +159,9 @@ public class OKFunctions {
 
 	public static String getRankSecureNopass(String user) {
 		String query1 = null;
-		String table1 = (String) getConfig("modes.table1");
-		String field1 = (String) getConfig("modes.field1");
-		String field3 = (String) getConfig("modes.field3");
+		String table1 = (String) getConfig("modes.usertable");
+		String field1 = (String) getConfig("modes.usernamefield");
+		String field3 = (String) getConfig("modes.rankfield");
 		query1 = "SELECT " + field3 + " FROM " + table1 + " WHERE " + field1 + " = '" + user + "'";
 		String rank = null;
 		try {
@@ -184,18 +184,24 @@ public class OKFunctions {
 		return rank;
 	}
 
+	/**
+	 * Get the rank of a given user name from the forum.
+	 *
+	 * @param  player String The player's Minecraft account name.
+	 * @return String The rank of the player in the forum. 
+	 */
 	public static String getRankNormal(String player) {
 		String query1 = null;
-		String table1 = (String) getConfig("modes.table1");
-		String field1 = (String) getConfig("modes.field1");
-		String field2 = (String) getConfig("modes.field2");
+		String table1 = (String) getConfig("modes.usertable");
+		String field1 = (String) getConfig("modes.usernamefield");
+		String field2 = (String) getConfig("modes.passwordfield");
 		String rank = null;
 		if (!(Boolean) getConfig("modes.multitable")) {
 			query1 = "SELECT " + field2 + " FROM " + table1 + " WHERE " + field1 + " = '" + player + "'";
 		} else {
-			String table2 = (String) getConfig("modes.table2");
-			query1 = "SELECT " + field2 + " FROM " + table1 + "," + table2 + " WHERE " + table2 + "." + field1 + " = '" + player + "' AND " + table2 + "." + (String) getConfig("modes.field4") + " = " + table1 + "."
-					+ (String) getConfig("modes.field3");
+			String table2 = (String) getConfig("modes.secondtable");
+			query1 = "SELECT " + field2 + " FROM " + table1 + "," + table2 + " WHERE " + table2 + "." + field1 + " = '" + player + "' AND " + table2 + "." + (String) getConfig("modes.useridfield") + " = " + table1 + "."
+					+ (String) getConfig("modes.rankfield");
 		}
 		try {
 			ResultSet rs = OKDatabase.dbm.sqlQuery(query1);
@@ -217,13 +223,45 @@ public class OKFunctions {
 		return rank;
 	}
 
+	/**
+	 * Add a record to the OKB3 database linking the player's name to their
+	 * forum account as long as the user name and password provided in-game
+	 * match in the forum.
+	 *
+	 * @param sender  Player  A Player object representing the player sending the command in game.
+	 * @param player  Player  A Player object representing the in game player being referenced.
+	 * @param plrname String  The in game name of the player being referenced.
+	 * @param user    String  The forum user name of the player.
+	 * @param pass    String  The forum password of the player.
+	 * @param force   Boolean Whether a player is forcing another player's settings.
+	 */
 	public static void updateSecure(Player sender, Player player, String plrname, String user, String pass, Boolean force) {
-		String rank = getRankSecurePass(user, pass);
+		String  rank      = getRankSecurePass(user, pass);
 		if (rank != null) {
 			plugin.changeGroup(plrname, rank, "nope", true);
 			try {
+				Boolean forumSync = (Boolean) getConfig("extras.forumsync");
+				String  sql       = "";
+
 				OKDB.deleteQuery("DELETE FROM players WHERE player = '" + plrname + "'");
 				OKDB.insertQuery("INSERT INTO players (player,user,encpass) VALUES ('" + plrname + "','" + user + "','" + pass + "')");
+				if (forumSync) {
+					Boolean multitable     = (Boolean) OKConfig.config.get("modes.multitable");
+					String  usertable      = (String)  OKConfig.config.get("modes.usertable");
+					String  secondtable    = (String)  OKConfig.config.get("modes.secondtable");
+					String  useridfield    = (String)  OKConfig.config.get("modes.useridfield");
+					String  useridfieldsec = (String)  OKConfig.config.get("modes.useridfieldsec");
+					String  usernamefield  = (String)  OKConfig.config.get("modes.usernamefield");
+					if (multitable)
+						sql = "UPDATE " + usertable 
+						    + " u INNER JOIN " + secondtable
+						    + " s ON u." + useridfield + "=s." + useridfieldsec 
+						    + " SET s." + usernamefield + "='" + plrname + "'";
+					else
+						sql = "UPDATE " + usertable
+						    + " u SET u." + usernamefield + "='" + plrname + "'";
+					OKDB.updateQuery(sql);
+				}
 			} catch (MalformedURLException e) {
 				e.printStackTrace();
 			} catch (InstantiationException e) {
@@ -252,6 +290,15 @@ public class OKFunctions {
 		}
 	}
 
+	/**
+	 * Add a record to the OKB3 database linking the player's name to their
+	 * forum account without any validation in the actual forum.
+	 *
+	 * @param sender  Player  A Player object representing the player sending the command in game.
+	 * @param player  Player  A Player object representing the in game player being referenced.
+	 * @param plrname String  The in game name of the player being referenced.
+	 * @param force   Boolean Whether a player is forcing another player's settings.
+	 */
 	public static void updateNormal(Player sender, Player player, String plrname, Boolean force) {
 		String rank = getRankNormal(plrname);
 		if (rank != null) {
@@ -286,7 +333,7 @@ public class OKFunctions {
 			}
 		} else if (forumtype.equalsIgnoreCase("vbulletin")) {
 			try {
-				ResultSet rs = OKDatabase.dbm.sqlQuery("SELECT salt FROM " + (String) getConfig("modes.table1") + " WHERE username = '" + user + "'");
+				ResultSet rs = OKDatabase.dbm.sqlQuery("SELECT salt FROM " + (String) getConfig("modes.usertable") + " WHERE username = '" + user + "'");
 				if (rs.next()) {
 					do {
 						encpass = md5(md5(pass) + rs.getString("salt"));
@@ -312,7 +359,7 @@ public class OKFunctions {
 			}
 		} else if (forumtype.equalsIgnoreCase("mybb")) {
 			try {
-				ResultSet rs = OKDatabase.dbm.sqlQuery("SELECT salt FROM " + (String) getConfig("modes.table1") + " WHERE username = '" + user + "'");
+				ResultSet rs = OKDatabase.dbm.sqlQuery("SELECT salt FROM " + (String) getConfig("modes.usertable") + " WHERE username = '" + user + "'");
 				if (rs.next()) {
 					do {
 						encpass = md5(md5(rs.getString("salt")) + md5(pass));
@@ -332,7 +379,7 @@ public class OKFunctions {
 			}
 		} else if (forumtype.equalsIgnoreCase("xenforo")) {
 			try {
-				ResultSet rs = OKDatabase.dbm.sqlQuery("SELECT data FROM " + (String) getConfig("modes.table2") + "," + (String) getConfig("modes.table1") + " WHERE xf_user.username = '" + user
+				ResultSet rs = OKDatabase.dbm.sqlQuery("SELECT data FROM " + (String) getConfig("modes.secondtable") + "," + (String) getConfig("modes.usertable") + " WHERE xf_user.username = '" + user
 						+ "' AND xf_user.user_id = xf_user_authenticate.user_id");
 				if (rs.next()) {
 					do {
@@ -353,7 +400,7 @@ public class OKFunctions {
 			}
 		} else if (forumtype.equalsIgnoreCase("ipb")) {
 			try {
-				ResultSet rs = OKDatabase.dbm.sqlQuery("SELECT members_pass_salt FROM " + (String) getConfig("modes.table1") + " WHERE members_l_username = '" + user + "'");
+				ResultSet rs = OKDatabase.dbm.sqlQuery("SELECT members_pass_salt FROM " + (String) getConfig("modes.usertable") + " WHERE members_l_username = '" + user + "'");
 				if (rs.next()) {
 					do {
 						encpass = md5(md5(rs.getString("members_pass_salt")) + md5(pass));
@@ -373,7 +420,7 @@ public class OKFunctions {
 			}
 		} else if (forumtype.equalsIgnoreCase("wbb")) {
 			try {
-				ResultSet rs = OKDatabase.dbm.sqlQuery("SELECT salt FROM " + (String) getConfig("modes.table1") + " WHERE username = '" + user + "'");
+				ResultSet rs = OKDatabase.dbm.sqlQuery("SELECT salt FROM " + (String) getConfig("modes.usertable") + " WHERE username = '" + user + "'");
 				if (rs.next()) {
 					do {
 						encpass = SHA1(rs.getString("salt") + SHA1(rs.getString("salt") + SHA1(pass)));
@@ -393,7 +440,7 @@ public class OKFunctions {
 			}
 		} else if (forumtype.equalsIgnoreCase("kunena")) {
 			try {
-				ResultSet rs = OKDatabase.dbm.sqlQuery("SELECT password FROM " + (String) getConfig("modes.table1") + " WHERE username = '" + user + "'");
+				ResultSet rs = OKDatabase.dbm.sqlQuery("SELECT password FROM " + (String) getConfig("modes.usertable") + " WHERE username = '" + user + "'");
 				if (rs.next()) {
 					do {
 						encpass = md5(pass + regmatch(":(.*)", rs.getString("password")));
@@ -551,7 +598,7 @@ public class OKFunctions {
 		}
 		if (identifier != null) {
 			try {
-				ResultSet check = OKDatabase.dbm.sqlQuery("SELECT " + (String) OKFunctions.getConfig("posts.field") + " FROM " + (String) OKFunctions.getConfig("modes.table1") + " WHERE " + (String) OKFunctions.getConfig("modes.field1") + " = '"
+				ResultSet check = OKDatabase.dbm.sqlQuery("SELECT " + (String) OKFunctions.getConfig("posts.field") + " FROM " + (String) OKFunctions.getConfig("modes.usertable") + " WHERE " + (String) OKFunctions.getConfig("modes.usernamefield") + " = '"
 						+ identifier + "'");
 				if (check.next()) {
 					do {
